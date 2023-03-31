@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.village_back.mapper.PopulationMapper">
+<!--    <insert id="insert">-->
+<!--        INSERT INTO `population`(name,phone,gender,age,idCard,householder,post,policy,education,inGroup,nation)-->
+<!--        values(#{name},#{gender},#{phone},#{age},#{idCard},#{householder},#{post},#{policy},#{education},#{inGroup},#{nation})-->
+<!--    </insert>-->
+
+    <update id="update">
+        update `population`
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="idCard != null">
+                idCard = #{idCard},
+            </if>
+            <if test="householder != null">
+                householder = #{householder},
+            </if>
+            <if test="post != null">
+                post = #{post},
+            </if>
+            <if test="policy != null">
+                policy = #{policy},
+            </if>
+            <if test="education != null">
+                education = #{education},
+            </if>
+            <if test="inGroup != null">
+                inGroup = #{inGroup},
+            </if>
+            <if test="nation != null">
+                nation = #{nation},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+
+    </update>
+
+<!--    <select id="findAll" resultType="com.example.village_back.entity.Population">-->
+<!--        SELECT * FROM population-->
+<!--    </select>-->
+    <select id="selectPage" resultType="com.example.village_back.entity.Population">
+        SELECT * FROM population
+<!--           加这个<where></where>这个条件-->
+            <where>
+                <if test="name != null and name != ''">
+                   and name like concat('%',#{name},'%')
+                </if>
+                <if test="phone != null and phone != ''">
+                   and phone like concat('%',#{phone},'%')
+                </if>
+                <if test="idCard != null and idCard != ''">
+                   and idCard like concat('%',#{idCard},'%')
+                </if>
+            </where>
+            LIMIT #{pageNum},#{pageSize}
+    </select>
+
+    <select id="selectTotal" resultType="java.lang.Long">
+        SELECT count(id) from population
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone like concat('%',#{phone},'%')
+            </if>
+            <if test="idCard != null and idCard != ''">
+                and idCard like concat('%',#{idCard},'%')
+            </if>
+        </where>
+    </select>
+
+
+</mapper>
