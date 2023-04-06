@@ -1,26 +1,61 @@
 package com.example.village_back.controller;
 
-import com.example.village_back.Service.UserService;
-import com.example.village_back.config.Result;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.village_back.controller.dao.UserDTO;
-import com.example.village_back.entity.User;
-import com.example.village_back.mapper.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import javax.annotation.Resource;
+import java.util.List;
 
+import com.example.village_back.service.IUserService;
+import com.example.village_back.entity.User;
+
+
+/**
+ * <p>
+ *  前端控制器
+ * </p>
+ *
+ * @author 李
+ * @since 2023-04-01
+ */
 @RestController
 @RequestMapping("/user")
-public class UserController {
+        public class UserController {
 
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private UserService userService;
-    //    用户登录接口
+    @Resource
+    private IUserService userService;
+
     @PostMapping("/login")
-    public boolean login(@RequestBody UserDTO userDTO){
-        return userService.login(userDTO);
-}
+    public Boolean login(@RequestBody UserDTO userDTO) {
+        String username = userDTO.getUsername();
+        String password = userDTO.getPassword();
+        Integer identify = userDTO.getIdentify();
+            if(StrUtil.isBlank(username) || StrUtil.isBlank(password) || identify == null){
+                return false;
+            }
+                return userService.login(userDTO);
+            }
+
+    @DeleteMapping("/{id}")
+    public Boolean delete(@PathVariable Integer id) {
+                return userService.removeById(id);
+            }
+
+    @GetMapping
+    public List<User> findAll() {
+                return userService.list();
+            }
+
+    @GetMapping("/{id}")
+    public User findOne(@PathVariable Integer id) {
+                return userService.getById(id);
+            }
+
+    @GetMapping("/page")
+    public Page<User> findPage(@RequestParam Integer pageNum,@RequestParam Integer pageSize) {
+                    return userService.page(new Page<>(pageNum, pageSize));
+                }
+
+            }
+

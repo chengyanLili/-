@@ -20,7 +20,7 @@
         <el-icon>
           <SwitchButton />
         </el-icon>
-        <span>退出登录</span>
+        <span @click="exit">退出登录</span>
       </div>
     </div>
     <div class="containe">
@@ -103,6 +103,9 @@ const clickMenu = function (menu) {
   data.currentIndex = menu.id;
   router.push(menu.url);
 };
+const exit = () => {
+  router.push("/login")
+}
 
 </script>
 

@@ -14,7 +14,7 @@ const rules = reactive({
     password: [
         { required: 'true', message: '密码不能为空', trigger: 'blur' }
     ],
-    role: [
+    identify: [
         { required: 'true', message: '请选择角色', trigger: 'blur' }
     ]
 
@@ -25,16 +25,19 @@ const login = async () => {
     if (!ruleFormRef) return;
     ruleFormRef.value.validate((valid) => {
         if (valid) {
-            request.post('http://127.0.0.1:9090/user/login',user).then((res) => {
-
-                if (res.status == '200') {
-                    router.push('/')
+            request.post('/api/user/login',user).then((res) => {
+                if (res.data) {
                     ElMessage({
                         showClose: true,
                         message: '登录成功！',
                         type: 'success',
                     })
-                    router.push('/')
+                    if (user.identify == 1) {
+                        router.push('/home')
+                        return
+                    }
+                    router.push('/villager')
+                   
                 } else {
                     ElMessage({
                         showClose: true,
@@ -78,7 +81,7 @@ const login = async () => {
                         </el-select>
                     </el-form-item>
                     <br>
-                    <el-form-item>
+                    <el-form-item >
                         <el-button type="primary" @click="login(ruleFormRef)">登录</el-button>
                         <el-button type="warning">
                             <router-link to="/register">注册</router-link>

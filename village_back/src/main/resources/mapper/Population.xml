@@ -3,7 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.village_back.mapper.PopulationMapper">
-<!--    <insert id="insert">-->
+    <insert id="insertBatch">
+        insert into `population`(name,phone,gender,age,idCard,householder,post,policy,education,inGroup,nation)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.name},#{item.gender},#{item.phone},#{item.age},#{item.idCard},#{item.householder},#{item.post},#{item.policy},#{item.education},#{item.inGroup},#{item.nation})
+
+        </foreach>
+    </insert>
+    <!--    <insert id="insert">-->
 <!--        INSERT INTO `population`(name,phone,gender,age,idCard,householder,post,policy,education,inGroup,nation)-->
 <!--        values(#{name},#{gender},#{phone},#{age},#{idCard},#{householder},#{post},#{policy},#{education},#{inGroup},#{nation})-->
 <!--    </insert>-->
@@ -50,8 +58,15 @@
         </where>
 
     </update>
+    <select  id = "deleteBatch" resultType="java.lang.Integer">
+        delete  from  population where id in
+        <foreach collection="ids"  item="item" index ="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 
-<!--    <select id="findAll" resultType="com.example.village_back.entity.Population">-->
+
+    <!--    <select id="findAll" resultType="com.example.village_back.entity.Population">-->
 <!--        SELECT * FROM population-->
 <!--    </select>-->
     <select id="selectPage" resultType="com.example.village_back.entity.Population">

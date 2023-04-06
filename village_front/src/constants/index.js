@@ -35,6 +35,36 @@ export const config = {
                 {id: 10,label: '中国民主建国会会员'},{id: 11,label: '中国民主促进会会员'},{id: 12,label: '中国农工民主党党员'},
                 {id: 13,label: '中国致公党党员'},{id: 14,label: '其他'}
             ],
+        RELATION: [
+                    {
+                            value: '妻子',
+                            label: '妻子',
+                    },
+                    {
+                            value: '儿子',
+                            label: '儿子',
+                    },
+                    {
+                            value: '女儿',
+                            label: '女儿',
+                    },
+                    {
+                            value: '父亲',
+                            label: '父亲',
+                    },
+                    {
+                            value: 'Option5',
+                            label: '母亲',
+                    },
+                    {
+                            value: '爷爷',
+                            label: '爷爷',
+                    },
+                    {
+                            value: '奶奶',
+                            label: '奶奶',
+                    },
+            ]
         
     }
     

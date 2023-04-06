@@ -1,8 +1,13 @@
-package com.example.village_back.Service;
+package com.example.village_back.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.village_back.entity.Population;
 import com.example.village_back.mapper.PopulationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -12,7 +17,7 @@ import java.util.Map;
 
 
 @Service
-public class PopulationService {
+public class PopulationService extends ServiceImpl {
     @Autowired
     private PopulationMapper populationMapper;
 
@@ -23,7 +28,9 @@ public class PopulationService {
         } else {
             return populationMapper.update(population);
         }
+
     }
+
     public Map<String,Object> findPage(@RequestParam Integer pageNum,
                     @RequestParam Integer pageSize,
                     @RequestParam String name,
@@ -37,4 +44,6 @@ public class PopulationService {
         res.put("total",total);
         return res;
     }
+
+
 }

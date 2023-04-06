@@ -3,11 +3,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/home',
-      name: 'home',
-      component: () => import('../views/home.vue')
-    },
+    // {
+    //   path: '/home',
+    //   name: 'home',
+    //   component: () => import('../views/home.vue')
+    // },
     // 管理员的界面
     {
       path: '/',
@@ -15,7 +15,7 @@ const router = createRouter({
       component: () => import('../views/container/container.vue'),
       children:[
         {
-          path: '/',
+          path: '/home',
           name: 'populationFile',
           component: () => import('../views/villigerManage/populationFile.vue')
         },
@@ -25,9 +25,9 @@ const router = createRouter({
               component: () => import('../views/villigerManage/familyManage/familyTree.vue')
             },
             {
-              path: 'addFamily',
-              name: 'addFamily',
-              component: () => import('../views/villigerManage/familyManage/addFamily.vue')
+              path: 'editFamily',
+              name: 'editFamily',
+              component: () => import('../views/villigerManage/familyManage/editFamily.vue')
             },
             {
               path: 'familyList',
