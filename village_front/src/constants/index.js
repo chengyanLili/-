@@ -53,7 +53,7 @@ export const config = {
                             label: '父亲',
                     },
                     {
-                            value: 'Option5',
+                            value: '母亲',
                             label: '母亲',
                     },
                     {

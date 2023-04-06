@@ -126,7 +126,6 @@ import { onMounted, reactive,ref } from "vue";
 import request from "../../../request/request.js";
 import router from "../../../router/index";
 import { ElMessageBox, ElMessage } from "element-plus";
-import { all } from "axios";
 const formLabelWidth = "140px";
 const formRef = ref(null);
 const allData = reactive({
@@ -255,16 +254,13 @@ const selectionChange = (selection) => {
 // 批量删除户籍
 const delBatch = () => {
   if (allData.idList) {
-    console.log("ids", allData.idList);
     let ids = allData.idList.map((v) => v.familyId);
-    console.log("ids", ids);
     ElMessageBox.confirm("你确定删除所选记录？", "提示", {
       confirmButtonText: "确定",
       cancelButtonText: "取消",
       type: "warning",
     }).then(() => {
       request.post("/api/family/del/batch", ids).then((res) => {
-        console.log("res", res);
         if (res.status == 200) {
           ElMessage({
             showClose: true,

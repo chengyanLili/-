@@ -303,7 +303,6 @@ const load = () => {
         allData.tableData = res.data.data;
         allData.total = res.data.total;
       }
-      console.log('@',allData.tableData)
     });
 };
 // 添加

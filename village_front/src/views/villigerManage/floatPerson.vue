@@ -30,9 +30,9 @@
     <el-table-column prop="phone" label="电话号码" width="120" />
     <el-table-column prop="age" label="年龄" width="60" />
     <el-table-column prop="idCard" label="身份证号码" width="168" />
-    <el-table-column prop="when" label="何时来此" width="120" />
-    <el-table-column prop="where" label="暂住何户" width="120" />
-    <el-table-column prop="why" label="因何来此" width="120" />
+    <el-table-column prop="whenCome" label="何时来此" width="120" />
+    <el-table-column prop="whereCome" label="暂住何户" width="120" />
+    <el-table-column prop="whyCome" label="因何来此" width="120" />
     <el-table-column fixed="right" label="操作" width="150">
       <template #default="scope">
         <el-button type="primary" size="small" @click="handleEdit(scope.row)"
@@ -69,13 +69,13 @@
         <el-input v-model="data.addForm.idCard" placeholder="请输入身份证号" autocomplete="off" />
       </el-form-item>
       <el-form-item label="何时来此" :label-width="formLabelWidth">
-        <el-input v-model="data.addForm.when" placeholder="请输入来村的时间" autocomplete="off" />
+        <el-input v-model="data.addForm.whenCome" placeholder="请输入来村的时间" autocomplete="off" />
       </el-form-item>
       <el-form-item label="暂住何户" :label-width="formLabelWidth">
-        <el-input v-model="data.addForm.where" placeholder="请输入现住何户" autocomplete="off" />
+        <el-input v-model="data.addForm.whereCome" placeholder="请输入现住何户" autocomplete="off" />
       </el-form-item>
       <el-form-item label="因何来此" :label-width="formLabelWidth">
-        <el-input v-model="data.addForm.why" placeholder="请输入来村的原因" autocomplete="off" />
+        <el-input v-model="data.addForm.whyCome" placeholder="请输入来村的原因" autocomplete="off" />
       </el-form-item>
 
     </el-form>
@@ -100,46 +100,14 @@
     />
 </template>
 <script setup>
-import { onMounted, reactive } from 'vue';
+import { reactive,onMounted } from 'vue'
+import request from '../../request/request';
 const formLabelWidth = '140px'
 const data = reactive({
-   tableData : [
-  {
-    id:1,
-    name: '小张',
-    gender:'男',
-    phone:'17865473321',
-    age: '23',
-    idCard:'533522288881132321',
-    when :'2000-01-18',
-    where:'暂住小明家',
-    why:'找工作',
-
-  },
-  {
-    id:2,
-    name: '小云',
-    gender:'女',
-    phone:'17865473321',
-    age: '23',
-    idCard:'533522288881132321',
-    when :'1788-09-08',
-    where:'暂住小花家',
-    why:'无家可归',
-  },
-  {
-    id:2,
-    name: '小云',
-    gender:'女',
-    phone:'17865473321',
-    age: '23',
-    idCard:'533522288881132321',
-    when :'1788-09-08',
-    where:'暂住小花家',
-    why:'无家可归',
-  },
- 
-],
+  currentPage: 1,
+  pageSize: 10,
+  total: 0,
+   tableData : [],
 dialogTableVisible: false,
 isEdit: false,
 searchForm: {
@@ -153,9 +121,9 @@ addForm: {
     age: '',
     gender: '',
     idCard: '',
-    when: '',
-    where: '',
-    why: '',
+    whenCome: '',
+    whereCome: '',
+    whyCome: '',
   },
   maxheight :window.innerHeight - 280
 })
@@ -171,21 +139,21 @@ addForm: {
 }
 // 获取全部的流动人口信息
 const load = () => {
-  // request.get('http://127.0.0.1:9090/population/findPage', {
-  //   params: {
-  //     pageNum: allData.currentPage,
-  //     pageSize: allData.pageSize,
-  //     name: allData.searchForm.name,
-  //     phone: allData.searchForm.phone,
-  //     idCard: allData.searchForm.idCard
-  //   }
-  // }).then((res) => {
-  //   if (res.status = '200') {
-  //     allData.tableData = res.data.data
-  //     allData.total = res.data.total
-  //   }
+  request.get('/api/floatPopulation/findPage', {
+    params: {
+      pageNum: data.currentPage,
+      pageSize: data.pageSize,
+      name: data.searchForm.name,
+      phone: data.searchForm.phone,
+      idCard: data.searchForm.idCard
+    }
+  }).then((res) => {
+    if (res.status = '200') {
+      data.tableData = res.data.data
+      data.total = res.data.total
+    }
 
-  // })
+  })
 }
 const handleCurrentChange = (val) => {
   console.log(`current page: ${val}`)
@@ -208,6 +176,11 @@ const submit = () => {
 const handleDelete = (row) => {
   console.log(row.id);
 }
+onMounted(
+  () => {
+    load()
+  }
+)
 </script>
 
 

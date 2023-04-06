@@ -59,30 +59,30 @@ const props = defineProps({
 const data = reactive({
   navMenu: [
     {
-      id: 2,
+      id: 1,
       label: "我的通知",
       url: "/villager/messageList",
     },
     {
-      id: 3,
+      id: 2,
       label: "我的决策",
       url: "/villager/myPolicy",
     },
     {
-      id: 4,
+      id: 3,
       label: "参与监督",
       url: "",
     },
     {
-      id: 5,
+      id: 4,
       label: "我的户籍",
       url: "",
     },
     {
-      id: 6,
+      id: 5,
       label: "个人中心",
-      url: "",
-    },
+      url: "/villager/mySelf",
+    }
   ],
   currentIndex: 0,
   villageInfo: {

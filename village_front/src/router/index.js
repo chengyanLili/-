@@ -97,9 +97,14 @@ const router = createRouter({
           name:'messageDetail',
           component:() => import('../views/villager/messageDetail.vue')
         },
+        {
+          path:'/villager/mySelf',
+          name:'mySelf',
+          component:() => import('../views/villager/mySelf.vue')
+        }    
       ]
     },
-   
+    
     {
       path:'/login',
       name:'login',
