@@ -23,8 +23,8 @@
             <if test="whenCome != null">
                 whenCome = #{whenCome},
             </if>
-            <if test="whereCome != null">
-                whereCome = #{whereCome},
+            <if test="witchFamily != null">
+                witchFamily = #{witchFamily},
             </if>
             <if test="whyCome != null">
                 whyCome = #{whyCome},
@@ -37,7 +37,7 @@
     </update>
     <select  id = "deleteBatch" resultType="java.lang.Integer">
         delete  from  floatPopulation where id in
-        <foreach collection="familyIds"  item="item" index ="index" open="(" separator="," close=")">
+        <foreach collection="ids"  item="item" index ="index" open="(" separator="," close=")">
             #{item}
         </foreach>
     </select>

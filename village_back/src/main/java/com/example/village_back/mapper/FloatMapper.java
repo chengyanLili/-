@@ -12,8 +12,8 @@ public interface FloatMapper {
     @Select("select * from floatPopulation")
     List<FloatPopulation> findAll();
 
-    @Insert("INSERT INTO `floatPopulation`(name,gender,phone,birthday,when,where,why)\n" +
-            "values(#{name},#{gender},#{phone},#{birthday},#{when},#{where},#{why})")
+    @Insert("INSERT INTO `floatPopulation`(name,gender,phone,birthday,whenCome,witchFamily,whyCome)\n" +
+            "values(#{name},#{gender},#{phone},#{birthday},#{whenCome},#{witchFamily},#{whyCome})")
 
     int insert(FloatPopulation floatPopulation);
 

@@ -20,12 +20,14 @@ public class FloatPopulation {
     private String gender;
     @Alias("电话号码")
     private String phone;
+    @Alias("身份证号")
+    private String idCard;
     @Alias("出生日期")
     private Date birthday;
     @Alias("何时来此")
     private Date whenCome;
-    @Alias("因何来迟")
-    private Date whereCome;
+    @Alias("暂住何户")
+    private String witchFamily;
     @Alias("为何来此")
-    private String why;
+    private String whyCome;
 }

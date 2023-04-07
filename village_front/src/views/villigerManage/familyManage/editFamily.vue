@@ -120,8 +120,8 @@
 import { ref,reactive,onMounted } from 'vue'
 import router from '../../../router/index'
 import { config } from '@/constants/index'
-import request from '../../../request/request';
-import { ElMessageBox, ElMessage } from "element-plus";
+import request from '../../../request/request'
+import { ElMessageBox, ElMessage } from "element-plus"
 const formRef = ref(null);
 const editFormRef = ref(null);
 const formLabelWidth = "140px";
@@ -232,7 +232,7 @@ const handleDelete = ( row) => {
 const beforeClose = () => {
   formRef.value.resetFields();
   data.dialogTableVisible = false;
-};
+}
 function addMenmber() {
     formRef.value.validate(valid => {
         if(valid){
