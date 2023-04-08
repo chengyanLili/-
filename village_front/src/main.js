@@ -10,6 +10,16 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import zhCn from "element-plus/lib/locale/lang/zh-cn"
 import './assets/main.css'
 
+import VueMarkdownEditor from '@kangc/v-md-editor';
+import '@kangc/v-md-editor/lib/style/base-editor.css';
+import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
+import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
+
+import Prism from 'prismjs';
+VueMarkdownEditor.use(vuepressTheme, {
+  Prism,
+});
+
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
@@ -22,6 +32,10 @@ app.provide(ID_INJECTION_KEY, {
 app.use(ElementPlus,{
   locale: zhCn,
 })
+
+
+app.use(VueMarkdownEditor);
+
 // 把Element-plus的分页改为中文
 zhCn.el.pagination = {
   goto: '跳至',
@@ -32,6 +46,7 @@ zhCn.el.pagination = {
 
 app.use(createPinia())
 app.use(router)
+
 
 
 app.mount('#app')

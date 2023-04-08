@@ -6,6 +6,8 @@ import com.example.village_back.entity.User;
 import com.example.village_back.mapper.UserMapper;
 import com.example.village_back.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,7 +20,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
-
+    @Autowired
+    private UserMapper baseMapper;
     @Override
     public Boolean login(UserDTO userDTO) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();

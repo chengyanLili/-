@@ -3,6 +3,9 @@ package com.example.village_back.service;
 import com.example.village_back.controller.dao.UserDTO;
 import com.example.village_back.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.village_back.mapper.UserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * <p>

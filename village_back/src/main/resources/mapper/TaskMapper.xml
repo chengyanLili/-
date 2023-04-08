@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.village_back.mapper.TaskMapper">
+
+    <update id="update">
+        update `task`
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="finishTime != null">
+                finishTime = #{finishTime},
+            </if>
+            <if test="progress != null">
+                progress = #{progress},
+            </if>
+            <if test="publishName != null">
+                publishName = #{publishName},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    <select  id = "deleteBatch" resultType="java.lang.Integer">
+        delete  from  floatPopulation where id in
+        <foreach collection="ids"  item="item" index ="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectPage" resultType="com.example.village_back.entity.Task">
+        SELECT * FROM task
+        <!--           加这个<where></where>这个条件-->
+        <where>
+            <if test="title != null and title != ''">
+                and title like concat('%',#{title},'%')
+            </if>
+        </where>
+        LIMIT #{pageNum},#{pageSize}
+    </select>
+
+    <select id="selectTotal" resultType="java.lang.Long">
+        SELECT count(id) from task
+        <where>
+            <if test="title != null and title != ''">
+                and title like concat('%',#{title},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

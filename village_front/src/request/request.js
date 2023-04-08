@@ -17,6 +17,7 @@ request.interceptors.request.use(config => {
     // }
     
  // config.headers['token'] = user.token;  // 设置请求头
+    // config.headers['content-type'] = 'multipart/form-data'
     return config
 }, error => {
     return Promise.reject(error)

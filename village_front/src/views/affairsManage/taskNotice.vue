@@ -1,7 +1,7 @@
 <template>
     <div class="title">任务列表</div>
     <div class="search">
-      <el-input v-model="data.searchName" style="width:150px;margin-right: 10px;" placeholder="请输入标题" />
+      <el-input v-model="data.searchName" clearable style="width:150px;margin-right: 10px;" placeholder="请输入标题" />
       <el-button @click="load" type="primary"><el-icon style="font-size: 18px;margin-right: 6px">
           <Search />
         </el-icon>搜索</el-button>
@@ -13,116 +13,224 @@
     :height="data.maxheight"
   > 
     <el-table-column type="selection" width="55" />
-    <el-table-column prop="taskTitle" label="标题" width="120" show-overflow-tooltip />
-    <el-table-column prop="content" label="内容" width="120" show-overflow-tooltip />
-    <el-table-column prop="publishTime" sortable label="发布时间" width="120" />
-    <el-table-column prop="chargeName" label="负责人姓名" width="120" />
-    <el-table-column prop="chargePhone" label="负责人电话" width="120" />
+    <el-table-column prop="title" label="标题" width="120" show-overflow-tooltip />
+    <el-table-column prop="createTime" sortable label="发布时间" width="120" />
+    <el-table-column prop="content" label="文章内容">
+        <template #default="scope">
+          <el-button @click="view(scope.row.content)" type="primary">查看内容</el-button>
+        </template>
+    </el-table-column>
+    <el-table-column prop="publishName" label="发布人" width="120" />
     <el-table-column label="任务状态" width="120" >
       <template #default="scope">
-        <el-tag v-if="scope.row.infoState == 1" type="success" size="small">进行中</el-tag>
-        <el-tag v-if="scope.row.infoState == 2" type="info" size="small">已完成</el-tag>
+        <el-tag v-if="scope.row.progress == '进行中'" type="success">进行中</el-tag>
+        <el-tag v-if="scope.row.progress == '已结束'" type="info">已完成</el-tag>
       </template>
     </el-table-column>
-    <el-table-column prop="note" label="备注" width="100" />
-    <el-table-column fixed="right" label="操作" width="200">
+    <el-table-column fixed="right" label="操作" width="250">
       <template #default="scope">
         <el-button type="primary" size="small" @click="handleEdit(scope.row)">编辑</el-button>
-        <el-button type="primary" size="small" @click="detail(scope.row)">详情</el-button>
         <el-button
           size="small"
           type="danger"
           @click="handleDelete(scope.row)"
-          >删除</el-button
-        >
+          >删除</el-button>
+          <el-button type="info" size="small" @click="handleFinish(scope.row)">结束任务</el-button>
+        
       </template>
     </el-table-column>
   </el-table>
   <br>
     <el-pagination
-      :current-page="1"
-      :page-size="10"
-      :page-sizes="[10, 20, 30, 40]"
+      :current-page="data.currentPage"
+      :page-size="data.pageSize"
+      :page-sizes="[5,10,20, 30]"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="400"
+      :total="data.total"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
-  <el-dialog v-model="data.dialogTableVisible" title='任务发布'>
-    <el-form :model="data.addForm">
-      <el-form-item label="标题" :label-width="formLabelWidth">
-        <el-input v-model="data.noticeForm.taskTitle" placeholder="请输入标题" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="内容" :label-width="formLabelWidth">
-        <el-input
-          type="textarea"
-          placeholder="请输入内容"
-          v-model="data.noticeForm.content"
-          maxlength="30"
-          show-word-limit
-        >
-      </el-input>
-      </el-form-item>
-      <el-form-item label="附件" :label-width="formLabelWidth">
-        <el-upload
-          class="upload-demo"
-          ref="upload"
-          :auto-upload="false">
-          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-      </el-upload>
-      </el-form-item>
-      <el-form-item>
-        <div class="btn">
-          <el-button @click="cancle">取消</el-button>
-          <el-button type="primary" @click="onSubmit">立即发布</el-button>
-        </div>    
-  </el-form-item>
-    </el-form>
-  </el-dialog>
+    <el-dialog title="发布任务" v-model="data.dialogFormVisible" width="80%" >
+      <el-form label-width="80px" size="small">
+        <el-form-item label="主题">
+          <el-input v-model="data.noticeForm.title" autocomplete="off" placeholder="请输入主题"></el-input>
+        </el-form-item>
+        <el-form-item label="姓名">
+          <el-input v-model="data.noticeForm.publishName" autocomplete="off" placeholder="请输入发布者姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="内容">
+          <v-md-editor 
+          ref="md" 
+          v-model="data.noticeForm.content" 
+          :disabled-menus="[]"
+          @upload-image="imgAdd"
+          height="280px"
+          ></v-md-editor>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="save">确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="任务内容" v-model="data.viewDialogVis" :before-close="beforeClose" width="70%" >
+      <el-card style="overflow: auto;">
+        <div>
+          <v-md-editor
+              class="md"
+              v-model="data.content" 
+              left-toolbar=""
+              right-toolbar=""
+              mode="preview"
+          />
+        </div>
+      </el-card>
+    </el-dialog>
     
 </template>
 
 <script setup>
-import { reactive } from 'vue';
-const formLabelWidth = '140px'
+import axios from 'axios';
+import { ElMessageBox,ElMessage } from 'element-plus';
+import request from '../../request/request'
+import { reactive,onMounted } from 'vue';
 const data = reactive({
-  tableData:[
-    {taskTitle:'哈哈哈哈哈哈哈',content:'内容1',publishTime:'2022-01-09',chargePhone:'1765432231',chargeName:'笑笑',infoState:1,note:'备注哈哈哈'},
-    {taskTitle:'嘎嘎嘎嘎嘎嘎嘎',content:'内容2',publishTime:'2021-01-09',chargePhone:'1765432231',chargeName:'笑笑',infoState:2,note:'备注哈哈哈'},
-  ],
+  tableData:[],
+  currentPage: 1,
+  pageSize: 10,
+  total: 0,
+  content:'',
 noticeForm: {
-    name: '',
+    title: '',
+    publishName:'',
     content:''
   },
   searchName:'',
-  dialogTableVisible: false,
+  dialogFormVisible: false,
+  viewDialogVis:false,
   maxheight :window.innerHeight - 280
 })
+onMounted(
+  () => {
+    load()
+  }
+)
 const load = () => {
-
+  request.get("/api/task/findPage",{
+    params: {
+      pageNum: data.currentPage,
+      pageSize: data.pageSize,
+      title: data.noticeForm.title
+    }
+  }).then(res=>{
+   data.tableData = res.data.data
+   data.total = res.data.total
+  })
 }
+
+const beforeClose = () => {
+  data.content = ''
+  data.viewDialogVis = false
+}
+// 绑定@imgAdd event
+function imgAdd(event,insertImage,files) {
+      // 第一步.将图片上传到服务器.
+      const formData = new FormData();
+      formData.append('file', files[0]);
+      axios({
+        url: 'http://localhost:9090/file/upload',
+        method: 'post',
+        data: formData,
+        headers: {'Content-Type': 'multipart/form-data'},
+      }).then((res) => {
+        console.log('res',res);
+        // 第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
+        insertImage({
+                    url:res.data
+               })
+      })
+    }
+
+  function view(content) {
+    console.log(content)
+      data.content = content
+      data.viewDialogVis = true
+    }
+
 const handleAdd = ()=>{
-  data.dialogTableVisible = true
+  data.dialogFormVisible = true
 }
 const handleEdit = (row)=>{
-  data.dialogTableVisible = true
   data.noticeForm = row
-}
-const cancle = () => {
-  data.dialogTableVisible = false
-}
-const onSubmit = () =>{
-  data.dialogTableVisible = false
-}
-const detail = () => {
+  data.dialogFormVisible = true
   
 }
-const handleSizeChange = () => {
-
+const cancle = () => {
+  data.dialogFormVisible = false
 }
-const handleCurrentChange = () => {
-
+const save = () =>{
+      axios({
+        url: '/api/task/addOrUpdate',
+        method: 'post',
+        data: data.noticeForm
+      }).then((res) => {
+        if (res) {
+          ElMessage.success("发布成功")
+          data.dialogFormVisible = false
+          load()
+        } else {
+          ElMessage.error("发布失败，请联系管理员！")
+        }
+      })
 }
+const handleFinish = (row)=>{
+  data.noticeForm = row
+  data.noticeForm.progress = "已结束"
+  request.post('/api/task/addOrUpdate',data.noticeForm).then(res=>{
+    if (res) {
+          ElMessage.success("已结束任务")
+          load()
+        } else {
+          ElMessage.error("操作失败，请联系管理员！")
+        }
+  })
+}
+// 删除任务
+const handleDelete = ( row ) => {
+  ElMessageBox.confirm("你确定删除所选记录？", "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  }).then(() => {
+    request.delete("/api/task/delete/" + row.id).then((res) => {
+      if (res.status == 200) {
+        ElMessage({
+          showClose: true,
+          message: "删除成功！",
+          type: "success",
+        });
+        load();
+      } else {
+        ElMessage({
+          showClose: true,
+          message: "删除失败！",
+          type: "error",
+        });
+      }
+    });
+  });
+};
+
+// 每页个数的改变
+const handleSizeChange = (val) => {
+  data.pageSize = val;
+  load();
+}
+// 跳转到哪里去
+const handleCurrentChange = (val) => {
+  data.currentPage = val;
+  load();
+};
 </script>
 
 <style>
