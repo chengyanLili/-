@@ -51,13 +51,15 @@
       @current-change="handleCurrentChange"
     />
     <el-dialog title="发布任务" v-model="data.dialogFormVisible" width="80%" >
-      <el-form label-width="80px" size="small">
-        <el-form-item label="主题">
-          <el-input v-model="data.noticeForm.title" autocomplete="off" placeholder="请输入主题"></el-input>
-        </el-form-item>
-        <el-form-item label="姓名">
-          <el-input v-model="data.noticeForm.publishName" autocomplete="off" placeholder="请输入发布者姓名"></el-input>
-        </el-form-item>
+      <el-form label-width="80px" >
+        <div class="input">
+          <el-form-item label="主题">
+            <el-input v-model="data.noticeForm.title" clearable autocomplete="off" placeholder="请输入主题"></el-input>
+          </el-form-item>
+          <el-form-item label="姓名">
+            <el-input v-model="data.noticeForm.publishName" clearable autocomplete="off" placeholder="请输入发布者姓名"></el-input>
+          </el-form-item>
+        </div>
         <el-form-item label="内容">
           <v-md-editor 
           ref="md" 
@@ -69,7 +71,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="cancel">取 消</el-button>
         <el-button type="primary" @click="save">确 定</el-button>
       </div>
     </el-dialog>
@@ -115,14 +117,22 @@ onMounted(
     load()
   }
 )
+onMounted(
+    window.onresize = () => {
+      return (() => {
+          data.maxheight = window.innerHeight - 280
+      })()
+    }
+  )
 const load = () => {
   request.get("/api/task/findPage",{
     params: {
       pageNum: data.currentPage,
       pageSize: data.pageSize,
-      title: data.noticeForm.title
+      title: data.searchName
     }
   }).then(res=>{
+    console.log('$',res.data);
    data.tableData = res.data.data
    data.total = res.data.total
   })
@@ -131,6 +141,9 @@ const load = () => {
 const beforeClose = () => {
   data.content = ''
   data.viewDialogVis = false
+}
+const cancel = ()=>{
+  data.dialogFormVisible = false
 }
 // 绑定@imgAdd event
 function imgAdd(event,insertImage,files) {
@@ -165,10 +178,9 @@ const handleEdit = (row)=>{
   data.dialogFormVisible = true
   
 }
-const cancle = () => {
-  data.dialogFormVisible = false
-}
+
 const save = () =>{
+  data.noticeForm.progress = '进行中'
       axios({
         url: '/api/task/addOrUpdate',
         method: 'post',
@@ -233,7 +245,7 @@ const handleCurrentChange = (val) => {
 };
 </script>
 
-<style>
+<style scoped>
   .title{
    font-size: 18px;
    margin-bottom: 10px;
@@ -244,5 +256,17 @@ const handleCurrentChange = (val) => {
   }
   .btn{
     margin-left: 200px;
+  }
+  .el-input{
+    width: 200px;
+    font-size: 14px;
+  }
+  .input{
+    display: flex;
+  }
+  .dialog-footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 </style>

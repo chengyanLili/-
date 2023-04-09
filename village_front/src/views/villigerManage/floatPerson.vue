@@ -162,10 +162,21 @@ addForm: {
   )
         // 重置表单
 function reset() {
+  data.addForm = {
+    name: '',
+    phone: '',
+    birthday: '',
+    gender: '',
+    idCard: '',
+    whenCome: '',
+    witchFamily: '',
+    whyCome: '',
+  }
     formRef.value.resetFields()
 }
     // 关闭表单前的回调
 const beforeClose = () => {
+  reset()
   formRef.value.resetFields();
   data.dialogTableVisible = false;
 }
@@ -283,7 +294,7 @@ const submit = () => {
 const selectionChange = (selection) => {
   data.idList = selection;
 };
-// 批量删除村民
+// 批量流动人口
 const delBatch = () => {
   if(data.idList.length>0) {
     let ids = data.idList.map((v) => v.id);

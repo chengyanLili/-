@@ -1,6 +1,8 @@
 package com.example.village_back.service;
 
+import com.example.village_back.entity.Cadre;
 import com.example.village_back.entity.FloatPopulation;
+import com.example.village_back.mapper.CadreMapper;
 import com.example.village_back.mapper.FloatMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,9 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class FloatService {
+public class CadreService {
     @Autowired
-    private FloatMapper floatMapper;
+    private CadreMapper cadreMapper;
 
     public Map<String,Object> findPage(@RequestParam Integer pageNum,
                                        @RequestParam Integer pageSize,
@@ -21,22 +23,21 @@ public class FloatService {
                                        @RequestParam String phone,
                                        @RequestParam String idCard){
         pageNum = (pageNum - 1) * pageSize;
-        List<FloatPopulation> data = floatMapper.selectPage(pageNum,pageSize,name,phone,idCard);
-        long total = floatMapper.selectTotal();
+        List<Cadre> data = cadreMapper.selectPage(pageNum,pageSize,name,phone,idCard);
+        long total = cadreMapper.selectTotal();
         Map<String,Object> res = new HashMap<>();
         res.put("data",data);
         res.put("total",total);
         return res;
     }
 
-    public int save(FloatPopulation floatPopulation) {
-        if (floatPopulation.getId() == null) {
+    public int save(Cadre cadre) {
+        if (cadre.getId() == null) {
 //            说明是新增数据
-            return floatMapper.insert(floatPopulation);
+            return cadreMapper.insert(cadre);
         } else {
-            return floatMapper.update(floatPopulation);
+            return cadreMapper.update(cadre);
         }
 
     }
-
 }

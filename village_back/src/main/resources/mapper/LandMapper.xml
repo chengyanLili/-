@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.village_back.mapper.LandMapper">
+
+    <update id="update">
+        update `landchange`
+        <set>
+            <if test="notaryName != null">
+                notaryName = #{notaryName},
+            </if>
+            <if test="notaryPhone != null">
+                notaryPhone = #{notaryPhone},
+            </if>
+            <if test="changeDay != null">
+                changeDay = #{changeDay},
+            </if>
+            <if test="changePlace != null">
+                changePlace = #{changePlace},
+            </if>
+            <if test="transferName != null">
+                transferName = #{transferName},
+            </if>
+            <if test="transferIntoName != null">
+                transferIntoName = #{transferIntoName},
+            </if>
+            <if test="changeNum != null">
+                changeNum = #{changeNum},
+            </if>
+            <if test="transferPhone != null">
+                transferPhone = #{transferPhone},
+            </if>
+            <if test="transferIntoPhone != null">
+                transferIntoPhone = #{transferIntoPhone},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+
+    </update>
+    <select  id = "deleteBatch" resultType="java.lang.Integer">
+        delete  from  landchange where id in
+        <foreach collection="ids"  item="item" index ="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectPage" resultType="com.example.village_back.entity.LandChange">
+        SELECT * FROM landchange
+        <!--           加这个<where></where>这个条件-->
+        <where>
+            <if test="transferName != null and transferName != ''">
+                and transferName like concat('%',#{transferName},'%')
+            </if>
+            <if test="transferPhone != null and transferPhone != ''">
+                and transferPhone like concat('%',#{transferPhone},'%')
+            </if>
+        </where>
+        LIMIT #{pageNum},#{pageSize}
+    </select>
+
+    <select id="selectTotal" resultType="java.lang.Long">
+        SELECT count(id) from landchange
+        <where>
+            <if test="transferName != null and transferName != ''">
+                and transferName like concat('%',#{transferName},'%')
+            </if>
+            <if test="transferPhone != null and transferPhone != ''">
+                and transferPhone like concat('%',#{transferPhone},'%')
+            </if>
+        </where>
+    </select>
+</mapper>
