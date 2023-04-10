@@ -14,7 +14,7 @@
                                         </div>
                                         <div class="info">
                                                 <div class="info-left">
-                                                                <div class="info-time">{{ msg.time }}</div>
+                                                                <div class="info-time">{{ msg.createTime }}-{{ msg.finishTime }}</div>
                                                         <div class="info-views">
                                                                 <el-icon><View /></el-icon>
                                                                 <span>{{ msg.viewsNum }}</span>
@@ -25,7 +25,7 @@
                                                                 <span>{{ msg.commentNum }}</span>                      
                                                         </div>
                                                         <div class="info-state">
-                                                                <el-button type="success" size="small" >{{ msg.msgState }}</el-button>
+                                                                <el-button type="success" size="small" >{{ msg.progress }}</el-button>
                                                         </div>
                                                 </div>
                                                 
@@ -38,21 +38,38 @@
 
 <script setup>
 import router from '@/router/index'
-import { reactive } from 'vue';
+import { reactive,onMounted } from 'vue';
+import request from '../../request/request'
 import bus from '@/utils/mitt.js'
 
 const toMsgDetail = (msg) => {
         router.push('/villager/messageDetail')
         bus.emit('msg',msg)
 }
+onMounted(
+  () => {
+    load()
+  }
+)
+// 获取全部的流动人口信息
+const load = () => {
+  request.get('/api/task/findPage', {
+    params: {
+      pageNum: 1,
+      pageSize: 100,
+      title:''
+    }
+  }).then((res) => {
+    if (res.status = '200') {
+      data.messageList = res.data.data
+      data.total = res.data.total
+    }
+
+  })
+}
 const data = reactive({
-messageList: [
-    { title: '2023年村长、副村长、村支书选举报名长、村支书选举报名',time: '[2023-01-12——2023-03-10]',viewsNum: 13, commentNum: 69, msgState:'进行中'},
-    { title: '2023年村长、副村长、村支书选举报名长、村支书选举报名',time: '[2023-01-12——2023-03-10]',viewsNum: 66, commentNum: 99, msgState:'已完成'},
-    { title: '2023年村长、副村长、村支书选举报名长、村支书选举报名',time: '[2023-01-12——2023-03-10]',viewsNum: 68, commentNum: 72, msgState:'进行中'},
-    { title: '2023年村长、副村长、村支书选举报名长、村支书选举报名',time: '[2023-01-12——2023-03-10]',viewsNum: 11, commentNum: 14, msgState:'已完成'},
-    { title: '2023年村长、副村长、村支书选举报名长、村支书选举报名',time: '[2023-01-12——2023-03-10]',viewsNum: 32, commentNum: 45, msgState:'进行中'}
-  ]
+messageList: [],
+  total:''
 })
 </script>      
 
