@@ -1,8 +1,7 @@
 package com.example.village_back.service;
 
-import com.example.village_back.entity.Difficulty;
+
 import com.example.village_back.entity.Message;
-import com.example.village_back.mapper.DifficultMapper;
 import com.example.village_back.mapper.MessageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class MessgeService {
+public class MessageService {
     @Autowired
     private MessageMapper messageMapper;
 

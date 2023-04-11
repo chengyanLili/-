@@ -17,6 +17,12 @@
             <if test="publishName != null">
                 publishName = #{publishName},
             </if>
+            <if test="commentNum != null">
+                commentNum = #{commentNum},
+            </if>
+            <if test="viewsNum != null">
+                viewsNum = #{viewsNum},
+            </if>
         </set>
         <where>
             id = #{id}

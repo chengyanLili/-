@@ -3,6 +3,8 @@ package com.example.village_back.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.sql.Date;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -30,6 +32,10 @@ public class User implements Serializable {
 
       @ApiModelProperty("0:系统管理员；1：村干部；2普通村民")
       private Integer identify;
+//        private String avatarUrl;
+//        private String address;
+//        private String phone;
+//        private Date birthday;
 
     
     public Integer getId() {
@@ -47,6 +53,38 @@ public class User implements Serializable {
       public void setUsername(String username) {
           this.username = username;
       }
+
+//    public String getAddress() {
+//        return address;
+//    }
+//
+//    public void setAddress(String address) {
+//        this.address = address;
+//    }
+//
+//    public String getPhone() {
+//        return phone;
+//    }
+//
+//    public void setPhone(String phone) {
+//        this.phone = phone;
+//    }
+//    public Date getBirthday() {
+//        return birthday;
+//    }
+//
+//    public void setBirthday(Date birthday) {
+//        this.birthday = birthday;
+//    }
+//
+//
+//    public String getAvatarUrl() {
+//        return avatarUrl;
+//    }
+//
+//    public void getAvatarUrl(String avatarUrl) {
+//        this.avatarUrl = avatarUrl;
+//    }
     
     public String getPassword() {
         return password;
@@ -71,6 +109,10 @@ public class User implements Serializable {
                   ", username=" + username +
                   ", password=" + password +
                   ", identify=" + identify +
+//                ", avatarUrl=" + avatarUrl +
+//                ", username=" + address +
+//                ", password=" + phone +
+//                ", identify=" + birthday +
               "}";
     }
 }

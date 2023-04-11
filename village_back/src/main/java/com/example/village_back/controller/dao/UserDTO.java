@@ -10,5 +10,6 @@ public class UserDTO {
     private String username;
     private String password;
     private Integer identify;
+    private String avatar;
 
 }

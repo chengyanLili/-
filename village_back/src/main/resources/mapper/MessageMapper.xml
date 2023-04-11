@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.village_back.mapper.MessageMapper">
+
+    <update id="update">
+        update `message`
+        <set>
+            <if test="theme != null">
+                theme = #{theme},
+            </if>
+            <if test="sendName != null">
+                sendName = #{sendName},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="sendTime != null">
+                sendTime = #{sendTime},
+            </if>
+            <if test="replyTime != null">
+                replyTime = #{replyTime},
+            </if>
+            <if test="msgStatus != null">
+                msgStatus = #{msgStatus},
+            </if>
+            <if test="handleName != null">
+                handleName = #{handleName},
+            </if>
+            <if test="reply != null">
+                reply = #{reply},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+
+    </update>
+    <select  id = "deleteBatch" resultType="java.lang.Integer">
+        delete  from  message where id in
+        <foreach collection="ids"  item="item" index ="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectPage" resultType="com.example.village_back.entity.Message">
+        SELECT * FROM message
+        <!--           加这个<where></where>这个条件-->
+        <where>
+            <if test="theme != null and theme != ''">
+                and theme like concat('%',#{theme},'%')
+            </if>
+        </where>
+        LIMIT #{pageNum},#{pageSize}
+    </select>
+
+    <select id="selectTotal" resultType="java.lang.Long">
+        SELECT count(id) from message
+        <where>
+            <if test="theme != null and theme != ''">
+                and theme like concat('%',#{theme},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

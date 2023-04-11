@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.village_back.mapper.CommentMapper">
+
+    <select id="findCommentDetail" resultType="com.example.village_back.entity.Comment">
+            SELECT * FROM comment
+            <!--           加这个<where></where>这个条件-->
+            <where>
+                <if test="name != null and name != ''">
+                    and name like concat('%',#{name},'%')
+                </if>
+                <if test="phone != null and phone != ''">
+                    and phone like concat('%',#{phone},'%')
+                </if>
+                <if test="idCard != null and idCard != ''">
+                    and idCard like concat('%',#{idCard},'%')
+                </if>
+            </where>
+            LIMIT #{pageNum},#{pageSize}
+
+    </select>
+</mapper>

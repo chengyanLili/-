@@ -23,7 +23,8 @@ public class Task {
     @Alias("主题")
     private String title;
     private String content;
-
+    private String viewsNum;
+    private String commentNum;
     private String createTime;
 
     private Date finishTime;
