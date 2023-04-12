@@ -25,8 +25,9 @@ public class TaskController {
     @GetMapping("/findPage")
     public Map<String,Object> findPage(@RequestParam Integer pageNum,
                                        @RequestParam Integer pageSize,
-                                       @RequestParam String title){
-        return taskService.findPage(pageNum,pageSize,title);
+                                       @RequestParam String title,
+                                       @RequestParam String noticeType){
+        return taskService.findPage(pageNum,pageSize,title,noticeType);
     }
 
     //    新增或编辑家庭成员

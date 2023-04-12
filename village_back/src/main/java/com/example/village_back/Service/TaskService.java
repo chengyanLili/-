@@ -21,9 +21,10 @@ public class TaskService {
 
     public Map<String,Object> findPage(@RequestParam Integer pageNum,
                                        @RequestParam Integer pageSize,
-                                       @RequestParam String title){
+                                       @RequestParam String title,
+                                       @RequestParam String noticeType){
         pageNum = (pageNum - 1) * pageSize;
-        List<Task> data = taskMapper.selectPage(pageNum,pageSize,title);
+        List<Task> data = taskMapper.selectPage(pageNum,pageSize,title,noticeType);
         long total = taskMapper.selectTotal();
         Map<String,Object> res = new HashMap<>();
         res.put("data",data);

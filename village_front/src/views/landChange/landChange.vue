@@ -328,7 +328,7 @@ const submit = () => {
 </script>
 
 
-<style lang="less">
+<style lang="less" scoped>
   .title{
    font-size: 18px;
   }

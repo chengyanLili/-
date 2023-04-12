@@ -279,7 +279,7 @@ const delBatch = () => {
     cancelButtonText: "取消",
     type: "warning",
   }).then(() => {
-    request.post("/api/floatPopulation/del/batch", ids).then((res) => {
+    request.post("/api/cadre/del/batch", ids).then((res) => {
       if (res.status == 200) {
         ElMessage({
           showClose: true,
@@ -312,7 +312,7 @@ const handleDelete = ( row ) => {
     cancelButtonText: "取消",
     type: "warning",
   }).then(() => {
-    request.delete("/api/floatPopulation/delete/" + row.id).then((res) => {
+    request.delete("/api/cadre/delete/" + row.id).then((res) => {
       if (res.status == 200) {
         ElMessage({
           showClose: true,
@@ -333,7 +333,7 @@ const handleDelete = ( row ) => {
 </script>
 
 
-<style lang="less">
+<style lang="less" scoped>
   .title{
    font-size: 18px;
   }

@@ -9,8 +9,8 @@ import java.util.List;
 @Mapper
 public interface TaskMapper {
 
-    @Insert("INSERT INTO `task`(title,content,createTime,finishTime,progress,publishName,commentNum)\n" +
-            "values(#{title},#{content},#{createTime},#{finishTime},#{progress},#{publishName},#{commentNum})")
+    @Insert("INSERT INTO `task`(title,content,createTime,finishTime,progress,publishName,commentNum,noticeType)\n" +
+            "values(#{title},#{content},#{createTime},#{finishTime},#{progress},#{publishName},#{commentNum},#{noticeType})")
 
     int insert(Task task);
 
@@ -22,7 +22,7 @@ public interface TaskMapper {
     //    批量删除
     Integer deleteBatch(@Param("ids") List<Long> ids);
 
-    List<Task> selectPage(Integer pageNum, Integer pageSize, String title);
+    List<Task> selectPage(Integer pageNum, Integer pageSize, String title,String noticeType);
 
     long selectTotal();
 }

@@ -144,7 +144,7 @@ const handleClose = ()=>{
 // let urlName = router.currentRoute.value.name
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .myMessages {
   .msgBody {
     width: 80%;

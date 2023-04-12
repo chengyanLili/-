@@ -23,6 +23,9 @@
             <if test="viewsNum != null">
                 viewsNum = #{viewsNum},
             </if>
+            <if test="noticeType != null">
+                noticeType = #{noticeType},
+            </if>
         </set>
         <where>
             id = #{id}
@@ -42,6 +45,9 @@
             <if test="title != null and title != ''">
                 and title like concat('%',#{title},'%')
             </if>
+            <if test="noticeType != null and noticeType != ''">
+                and noticeType like concat('%',#{noticeType},'%')
+            </if>
         </where>
         LIMIT #{pageNum},#{pageSize}
     </select>
@@ -51,6 +57,9 @@
         <where>
             <if test="title != null and title != ''">
                 and title like concat('%',#{title},'%')
+            </if>
+            <if test="noticeType != null and noticeType != ''">
+                and noticeType like concat('%',#{noticeType},'%')
             </if>
         </where>
     </select>

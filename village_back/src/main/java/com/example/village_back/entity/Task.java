@@ -26,6 +26,7 @@ public class Task {
     private String viewsNum;
     private String commentNum;
     private String createTime;
+    private String noticeType;
 
     private Date finishTime;
 }

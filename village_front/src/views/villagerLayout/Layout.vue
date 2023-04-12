@@ -109,7 +109,7 @@ const exit = () => {
 
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 
 body {
   background-color: #e3e9ee;

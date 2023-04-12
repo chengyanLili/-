@@ -3,11 +3,29 @@ import { createRouter, createWebHistory } from 'vue-router'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    // {
-    //   path: '/home',
-    //   name: 'home',
-    //   component: () => import('../views/home.vue')
-    // },
+    {
+      path: '/front',
+      name: 'front',
+      component: () => import('../views/home.vue'),
+      children:[
+        {
+          path: '/front/frontHome',
+          name: 'frontHome',
+          component: () => import('../views/front/frontHome.vue')
+        },
+        {
+          path: '/front/cadre',
+          name: 'cadre',
+          component: () => import('../views/front/cadres.vue')
+        },
+        {
+          path: '/front/publicInfo',
+          name: 'publicInfo',
+          component: () => import('../views/front/publicInfo.vue')
+        },
+      ]
+    },
+    
     // 管理员的界面
     {
       path: '/',

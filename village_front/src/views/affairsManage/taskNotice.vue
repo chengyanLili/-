@@ -1,12 +1,20 @@
 <template>
     <div class="title">任务列表</div>
     <div class="search">
-      <el-input v-model="data.searchName" clearable style="width:150px;margin-right: 10px;" placeholder="请输入标题" />
+      <el-input v-model="data.searchForm.searchName" clearable style="width:150px;margin-right: 10px;" placeholder="请输入标题" />
+      <el-select v-model="data.searchForm.noticeType"  clearable class="m-2" style="margin-right: 10px;"  placeholder="请选择通知类型">
+    <el-option
+      v-for="item in data.types"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    />
+  </el-select>
       <el-button @click="load" type="primary"><el-icon style="font-size: 18px;margin-right: 6px">
           <Search />
         </el-icon>搜索</el-button>
     </div>
-    <el-button style="margin-bottom: 10px;" type="primary" @click="handleAdd">发布新任务</el-button>
+    <el-button style="margin-bottom: 10px;" type="primary" @click="handleAdd">发布</el-button>
 <el-table
     :data="data.tableData"
     :border="true"
@@ -50,7 +58,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
-    <el-dialog title="发布任务" v-model="data.dialogFormVisible" width="80%" >
+    <el-dialog title="发布" v-model="data.dialogFormVisible" width="80%" >
       <el-form label-width="80px" >
         <div class="input">
           <el-form-item label="主题">
@@ -59,6 +67,15 @@
           <el-form-item label="姓名">
             <el-input v-model="data.noticeForm.publishName" clearable autocomplete="off" placeholder="请输入发布者姓名"></el-input>
           </el-form-item>
+          <el-form-item label="姓名">
+            <el-select v-model="data.noticeForm.noticeType" clearable class="m-2" style="margin-right: 10px;"  placeholder="请选择通知类型">
+            <el-option
+              v-for="item in data.types"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+        </el-select></el-form-item>
         </div>
         <el-form-item label="内容">
           <v-md-editor 
@@ -75,7 +92,7 @@
         <el-button type="primary" @click="save">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="任务内容" v-model="data.viewDialogVis" :before-close="beforeClose" width="70%" >
+    <el-dialog title="详情" v-model="data.viewDialogVis" :before-close="beforeClose" width="70%" >
       <el-card style="overflow: auto;">
         <div>
           <v-md-editor
@@ -102,12 +119,26 @@ const data = reactive({
   pageSize: 10,
   total: 0,
   content:'',
-noticeForm: {
+  noticeForm: {
     title: '',
     publishName:'',
-    content:''
+    content:'',
+    noticeType:''
   },
-  searchName:'',
+  types: [
+    {label: '乡村要闻',value:'乡村要闻'},
+    {label: '凤庆县要闻',value:'凤庆县要闻'},
+    {label: '森林防火',value:'森林防火'},
+    {label: '法律法规',value:'法律法规'},
+    {label: '上级政策',value:'上级政策'},
+    {label: '落实完成',value:'落实完成'},
+    {label: '村务通知',value:'村务通知'}
+  ],
+  searchForm: {
+    searchName: '',
+    noticeType:''
+  },
+
   dialogFormVisible: false,
   viewDialogVis:false,
   maxheight :window.innerHeight - 280
@@ -129,7 +160,8 @@ const load = () => {
     params: {
       pageNum: data.currentPage,
       pageSize: data.pageSize,
-      title: data.searchName
+      title: data.searchForm.searchName,
+      noticeType: data.searchForm.noticeType
     }
   }).then(res=>{
     console.log('$',res.data);
@@ -140,7 +172,14 @@ const load = () => {
 
 const beforeClose = () => {
   data.content = ''
+  data.noticeForm= {
+    title: '',
+    publishName:'',
+    content:'',
+    noticeType:''
+  },
   data.viewDialogVis = false
+  data.dialogFormVisible = false
 }
 const cancel = ()=>{
   data.dialogFormVisible = false
@@ -188,7 +227,7 @@ const save = () =>{
       }).then((res) => {
         if (res) {
           ElMessage.success("发布成功")
-          data.dialogFormVisible = false
+          beforeClose()
           load()
         } else {
           ElMessage.error("发布失败，请联系管理员！")
