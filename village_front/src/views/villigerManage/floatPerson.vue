@@ -120,7 +120,7 @@
 import { ref,reactive,onMounted } from 'vue'
 import request from '../../request/request'
 import { ElMessageBox, ElMessage } from "element-plus"
-const formRef = ref(null);
+const formRef = ref(null)
 const formLabelWidth = '140px'
 const data = reactive({
   currentPage: 1,

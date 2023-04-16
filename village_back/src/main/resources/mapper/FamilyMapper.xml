@@ -52,6 +52,9 @@
             <if test="householdName != null and householdName != ''">
                 and householdName like concat('%',#{householdName},'%')
             </if>
+            <if test="name != null and name != ''">
+                and name like concat('%',#{name},'%')
+            </if>
         </where>
         LIMIT #{pageNum},#{pageSize}
     </select>
@@ -61,6 +64,9 @@
         <where>
             <if test="householdName != null and householdName != ''">
                 and name like concat('%',#{householdName},'%')
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
             </if>
         </where>
     </select>

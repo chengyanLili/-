@@ -19,7 +19,7 @@
     <el-table-column prop="theme" label="主题" width="120" show-overflow-tooltip />
     <el-table-column prop="content" label="内容" width="120" show-overflow-tooltip />
     <el-table-column prop="sendName" label="发件人姓名" width="120" show-overflow-tooltip />
-    <el-table-column prop="sendTime" sortable label="发信时间" width="120" :formatter="formatDates"/>
+    <el-table-column prop="sendTime" sortable label="发信时间" width="120" :formatter="formatDates2"/>
     <el-table-column prop="handleName" label="处理人姓名" width="120" />
     <el-table-column prop="msgStatus" label="信息状态" width="120" >
       <template #default="scope">
@@ -27,7 +27,7 @@
         <el-tag v-if="scope.row.msgStatus == '已处理'" type="success" size="small">已处理</el-tag>
       </template>
     </el-table-column>
-    <el-table-column prop="replyTime" sortable label="处理时间" width="120" :formatter="formatDates"/>
+    <el-table-column prop="replyTime" sortable label="处理时间" width="120" :formatter="formatDates1"/>
     <el-table-column fixed="right" label="操作" width="150">
       <template #default="scope">
         <el-button type="primary" size="small" @click="handleEdit(scope.row)">处理</el-button>
@@ -64,9 +64,6 @@
       <el-form-item label="信息主题" prop="theme" :label-width="formLabelWidth">
         <el-input disabled v-model="data.addForm.theme" autocomplete="off" />
       </el-form-item>
-      <el-form-item label="收信日期" prop="sendTime" :label-width="formLabelWidth">
-        <el-input disabled v-model="data.addForm.sendTime" autocomplete="off" />
-      </el-form-item>
       <el-form-item label="发信人姓名" prop="sendName" :label-width="formLabelWidth">
         <el-input disabled v-model="data.addForm.sendName" autocomplete="off" />
       </el-form-item>
@@ -88,7 +85,7 @@
   </el-dialog>
 </template>
 <script setup>
-import { ref,reactive,onMounted } from 'vue'
+import { ref,reactive,onBeforeMount,onMounted } from 'vue'
 import request from '../../request/request'
 import { ElMessageBox, ElMessage } from "element-plus"
 const formRef = ref(null);
@@ -106,9 +103,13 @@ addForm: {
     theme: '',
     content: '',
     sendName: '',
-    reply:''
+    reply:'',
   },
   maxheight :window.innerHeight - 280
+})
+onBeforeMount(() => {
+  const res = JSON.parse(localStorage.getItem('users'))
+  data.addForm.handleName = res[0].handleName
 })
   onMounted(
     window.onresize = () => {
@@ -117,42 +118,33 @@ addForm: {
       })()
     }
   )
-        // 重置表单
-function reset() {
-  data.addForm = {
-    name: '',
-    phone: '',
-    birthday: '',
-    gender: '',
-    idCard: '',
-    whenCome: '',
-    witchFamily: '',
-    whyCome: '',
-  }
-    formRef.value.resetFields()
-}
+
     // 关闭表单前的回调
 const beforeClose = () => {
-  reset()
   formRef.value.resetFields();
   data.dialogTableVisible = false;
 }
   // 日期格式
-const formatDates = function (cellValue) {
+const formatDates1 = function (cellValue) {
    if(cellValue.replyTime !== null) {
    return cellValue.replyTime.split('T')[0]
-  }else if( cellValue.sendTime !== null){
-    return cellValue.sendTime.split('T')[0]
   }
    return
   }
-// 获取全部的流动人口信息
+  const formatDates2 = function (cellValue) {
+   if(cellValue.sendTime !== null) {
+   return cellValue.sendTime.split('T')[0]
+  }
+   return
+  }
+// 获取全部信件
 const load = () => {
   request.get('/api/message/findPage', {
     params: {
       pageNum: data.currentPage,
       pageSize: data.pageSize,
-      theme: data.searchTheme
+      theme: data.searchTheme,
+      sendName: ''
     }
   }).then((res) => {
     if (res.status = '200') {
@@ -172,14 +164,28 @@ const handleCurrentChange = (val) => {
   data.currentPage = val
   load()
 }
-// 编辑流动人口
+// 编辑
 const handleEdit = (row) => {
   data.dialogTableVisible = true
   data.addForm = row
 }
+ /**
+     * 查询当天日期
+     */
+    function getNowDate() {
+      const timeOne = new Date()
+      const year = timeOne.getFullYear()
+      let month = timeOne.getMonth() + 1
+      let day = timeOne.getDate()
+      month = month < 10 ? '0' + month : month
+      day = day < 10 ? '0' + day : day
+      const NOW_MONTHS_AGO = `${year}-${month}-${day}`
+      return NOW_MONTHS_AGO
+    }
 // 提交表单
 const submit = () => {
   data.addForm.msgStatus = '已处理'
+  data.addForm.replyTime = getNowDate()
       request.post("/api/message/addOrUpdate",data.addForm).then((res)=>{
         if(res.status == 200){
           ElMessage({

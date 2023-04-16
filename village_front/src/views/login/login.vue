@@ -25,8 +25,9 @@ const login = async () => {
     if (!ruleFormRef) return;
     ruleFormRef.value.validate((valid) => {
         if (valid) {
-            request.post('/api/user/login',user).then((res) => {
-                if (res.data) {
+            request.post('/api/users/login',user).then((res) => {
+                if (res.data.length !==0 ) {
+                    localStorage.setItem('users', JSON.stringify(res.data))
                     ElMessage({
                         showClose: true,
                         message: '登录成功！',
@@ -77,7 +78,6 @@ const login = async () => {
                         <el-select v-model="user.identify" placeholder="请选择角色">
                             <el-option label="村干部" value="1" />
                             <el-option label="普通村民" value="2" />
-                            <el-option label="系统管理员" value="0" />
                         </el-select>
                     </el-form-item>
                     <br>

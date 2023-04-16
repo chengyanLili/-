@@ -23,9 +23,10 @@ public class FamilyController {
     @GetMapping("/findPage")
     public Map<String,Object> findPage(@RequestParam Integer pageNum,
                                        @RequestParam Integer pageSize,
-                                       @RequestParam String householdName
+                                       @RequestParam String householdName,
+                                       @RequestParam String name
                                        ){
-        return familyService.findPage(pageNum,pageSize,householdName);
+        return familyService.findPage(pageNum,pageSize,householdName,name);
     }
 
 //    查看户籍详情

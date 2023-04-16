@@ -23,10 +23,12 @@ public class MessageController {
     @GetMapping("/findPage")
     public Map<String,Object> findPage(@RequestParam Integer pageNum,
                                        @RequestParam Integer pageSize,
-                                       @RequestParam String theme){
-        return messageService.findPage(pageNum,pageSize,theme);
+                                       @RequestParam String theme,
+                                       @RequestParam String sendName
+                                       ){
+        return messageService.findPage(pageNum,pageSize,theme,sendName);
     }
-    //    新增或编辑家庭成员
+    //    新增或编辑
     @PostMapping("/addOrUpdate") //插入数据
     public int save(@RequestBody Message message){
 //        新增或者更新

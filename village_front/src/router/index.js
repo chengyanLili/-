@@ -23,10 +23,25 @@ const router = createRouter({
           name: 'publicInfo',
           component: () => import('../views/front/publicInfo.vue')
         },
+        {
+          path: '/front/comeHT',
+          name: 'comeHT',
+          component: () => import('../views/front/comeHT.vue')
+        },
+        {
+          path:'/front/message',
+          name:'message',
+          component:() => import('../views/front/messageList.vue')
+        },
+        {
+          path:'/front/myself',
+          name:'myself',
+          component:() => import('../views/front/myself.vue')
+        },
       ]
     },
     
-    // 管理员的界面
+    // 村干部界面
     {
       path: '/',
       name: 'container',
@@ -37,11 +52,11 @@ const router = createRouter({
           name: 'populationFile',
           component: () => import('../views/villigerManage/populationFile.vue')
         },
-            {
-              path: 'familyTree',
-              name: 'familyTree',
-              component: () => import('../views/villigerManage/familyManage/familyTree.vue')
-            },
+        {
+          path: '/users',
+          name: 'users',
+          component: () => import('../views/users/users.vue')
+        },
             {
               path: 'editFamily',
               name: 'editFamily',
@@ -103,7 +118,7 @@ const router = createRouter({
         {
           path:'/villager/messageList',
           name:'messageList',
-          component:() => import('../views/villager/messageList.vue')
+          component:() => import('../views/front/messageList.vue')
         },
         {
           path:'/villager/myPolicy',
@@ -111,15 +126,15 @@ const router = createRouter({
           component:() => import('../views/villager/myPolicy.vue')
         },
         {
+          path:'/villager/myFamily',
+          name:'myFamily',
+          component:() => import('../views/villager/myFamily.vue')
+        },
+        {
           path:'/villager/messageDetail',
           name:'messageDetail',
           component:() => import('../views/villager/messageDetail.vue')
-        },
-        {
-          path:'/villager/mySelf',
-          name:'mySelf',
-          component:() => import('../views/villager/mySelf.vue')
-        }    
+        }
       ]
     },
     

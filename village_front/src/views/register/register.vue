@@ -1,12 +1,13 @@
 <script setup>
 import { ref, reactive } from "vue";
 import { ElMessage } from 'element-plus'
+import request from '../../request/request.js'
+import router from '../../router/index.js'
 
 const ruleFormRef = ref(null)
-const ruleForm = reactive({
-    username: "",
-    password: "",
-    role: "",
+const addForm = reactive({
+    username:'',
+    password:''
 });
 
 const rules = reactive({
@@ -15,28 +16,35 @@ const rules = reactive({
     ],
     password: [
         { required: 'true', message: '密码不能为空', trigger: 'blur' }
-    ],
-    role: [
-        { required: 'true', message: '请选择角色', trigger: 'blur' }
     ]
-
-});
-
-// 进行登录验证
-const login = async () => {
+})
+// 进行登录验证 
+const register = async () => {
     if (!ruleFormRef) return;
     ruleFormRef.value.validate((valid) => {
         if (valid) {
-            console.log(ruleFormRef.value.validate);
-            ElMessage({
-                showClose: true,
-                message: '登录成功！',
-                type: 'success',
+            request.post('/api/users/add',addForm).then((res) => {
+                if (res.status == 200) {
+                    ElMessage({
+                        showClose: true,
+                        message: '注册成功',
+                        type: 'success',
+                    })
+                    router.push('/villager')
+                   
+                } else {
+                    ElMessage({
+                        showClose: true,
+                        message: '注册失败',
+                        type: 'error',
+                    })
+                }
             })
+
         } else {
             ElMessage({
                 showClose: true,
-                message: '用户名或密码错误！',
+                message: '用户名或密码不能为空！',
                 type: 'error',
             })
             return false;
@@ -50,23 +58,18 @@ const login = async () => {
     <div class="wrap">
         <div class="login">
             <div class="form">
-                <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="160px"
-                    class="ruleForm">
-                    <el-form-item label="账号：" prop="username">
-                        <el-input v-model="ruleForm.username" autocomplete="off" placeholder="请输入账号"></el-input>
+                <el-form ref="ruleFormRef" :model="addForm" status-icon :rules="rules" label-width="120px"
+                    class="addForm">
+                    <el-form-item label="用户名：" prop="username">
+                        <el-input v-model="addForm.username" autocomplete="off" placeholder="请输入用户名"></el-input>
                     </el-form-item>
                     <el-form-item label="密码：" prop="password">
-                        <el-input v-model="ruleForm.password" type="password" autocomplete="off"
-                            placeholder="请输入密码"></el-input>
-                    </el-form-item>
-                    <el-form-item label="再次确认密码：" prop="password">
-                        <el-input v-model="ruleForm.password" type="password" autocomplete="off"
+                        <el-input v-model="addForm.password" type="password" autocomplete="off"
                             placeholder="请输入密码"></el-input>
                     </el-form-item>
                     <br>
                     <el-form-item>
-                        <el-button type="primary" >立即注册</el-button>
-                        <el-button type="primary" >取消</el-button>
+                        <el-button type="primary" @click="register">立即注册</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -85,10 +88,9 @@ const login = async () => {
     opacity: 0.8;
 
     .login {
-        width: 40%;
-        height: 40%;
+        width: 30%;
+        height: 35%;
         min-width: 300px;
-        min-height: 300px;
         background-color: #fff;
         position: absolute;
         left: 0;

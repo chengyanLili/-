@@ -1,8 +1,15 @@
 <script setup>
-import { reactive,computed } from 'vue';
+import { reactive,computed,onBeforeMount } from 'vue';
 import router from '../router/index.js'
     const data = reactive({
   menu: [
+      {
+         path: '/users',
+          name: 'users',
+          lable: '用户管理',
+          icon: 'UserFilled',
+          url: 'users/users',
+    },
     {
       id:1,
       lable: '村民信息管理',
@@ -73,9 +80,13 @@ import router from '../router/index.js'
       icon: 'Histogram',
       url: 'statistic/statistic',
     }
-  ]
+  ],
 })
 
+onBeforeMount(()=>{
+            data.users = JSON.parse(localStorage.getItem('users'))
+        })
+       
         let noChildren = computed(() => {
             return data.menu.filter(item => !item.children)
         })
@@ -110,13 +121,13 @@ import router from '../router/index.js'
       <h2>村务管理系统</h2>
       <div class="info">
         <div class="avatar">
-          <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
+          <el-avatar :src="data.users[0].avatarUrl" />
         </div>
         <ul class="name">
-          <li>张翠花</li>
+          <li>{{ data.users[0].username }}</li>
           <li><el-icon>
               <CaretRight />
-            </el-icon>系统管理员</li>
+            </el-icon>村干部</li>
         </ul>
       </div>
 

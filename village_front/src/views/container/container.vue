@@ -15,7 +15,7 @@ import Aside from '../../components/aside.vue'
         <el-header style="padding:0px">
             <Header></Header>
         </el-header>
-        <el-main>
+        <el-main style="background-color: #fff;">
           <router-view></router-view>
         </el-main>
       </el-container>

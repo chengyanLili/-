@@ -7,6 +7,7 @@ import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.village_back.entity.Files;
 import com.example.village_back.mapper.FileMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +31,8 @@ import java.util.List;
 public class FileController {
     @Value("${files.upload.path}")
     public String fileUploadPath;
+    @Autowired
     @Qualifier("fileMapper")
-    @Resource
     private FileMapper fileMapper;
 
     @PostMapping("/upload")

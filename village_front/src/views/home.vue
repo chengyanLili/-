@@ -17,33 +17,22 @@ import router from '../router';
       },
       { id:4,
         label:'走进荒田',
-        url:''
+        url:'/front/comeHT'
       },
       { id:5,
+        label:'信箱',
+        url:'/front/message'
+      },
+      { id:6,
+        label:'个人中心',
+        url:'/front/myself'
+      },
+      { id:7,
         label:'登录',
-        url:''
+        url:'/login'
       }
     ],
-    policyList:[
-    {
-        id:1,
-        time:'2022-1-12',
-        theme:'财政部农业农村部发布2022年重点强农惠农政策',
-        content:'年中央财政信开展粮食耕种原则上县域内补贴标准应统一。'
-      },
-      {
-        id:2,
-        time:'2022-1-12',
-        theme:'财政部 农业农村部发布2022年重点强农惠农政策',
-        content:'年中央财政信开展粮食耕种原则上县域内补贴标准应统一。'
-      },
-      {
-        id:3,
-        time:'2022-1-12',
-        theme:'财政部 农业农村部发布2022年重点强农惠农政策',
-        content:'年中央财政信开展粮食耕种原则上县域内补贴标准应统一。'
-      }
-    ],
+    policyList:[],
     currentIndex:0
   })
 
@@ -65,13 +54,11 @@ import router from '../router';
     </div>
     
   </div>
-  
 </template>
-<style lang="less" scoped>
+<style lang="less">
 body{
-  background-color: #ebecef;
+  background-color: #eaebf0;
 }
-
   .head{
     background-image: url('../assets/img/village.jpeg');
     background-repeat: no-repeat;
@@ -99,7 +86,6 @@ body{
   color: black;
 }
 .main{
-  background-color: #ffffffeb;
   margin: 10px auto 0 auto;
   width: 80%;
   height: 100%;

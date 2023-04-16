@@ -1,52 +1,22 @@
 <template>
-  <div class="content">
-    <div class="nav">
-      <div class="home">
-        <el-icon size="28">
-          <HomeFilled />
-        </el-icon>
-      </div>
-      <ul>
-        <li
-          v-for="menu in data.navMenu"
-          :key="menu.url"
-          :class="{ active: data.currentIndex === menu.id }"
-          @click="clickMenu(menu)"
-        >
-          {{ menu.label }}
+    <div class="content">
+      <ul class="info" style="color:black;display: grid; margin-top: 50px;">
+        <li>
+          <el-avatar
+            shape="square"
+            :size="100"
+            fit="fill"
+            :src="data.villageInfo[0].avatarUrl"
+            @click="upload"
+          />
         </li>
+        <li>昵称：{{ data.villageInfo[0].nickName }}</li>
+        <li>性别：{{ data.villageInfo[0].gender }}</li>
+        <li>年龄：{{ data.villageInfo[0].birthday }}</li>
+        <li>联系电话：{{ data.villageInfo[0].phone }}</li>
+        <li>家庭住址：{{ data.villageInfo[0].address }}</li>
+        <li><el-tag class="ml-2" type="success" @click="handleEdit">修改</el-tag></li>
       </ul>
-      <div class="right">
-        <el-icon>
-          <SwitchButton />
-        </el-icon>
-        <span @click="exit">退出登录</span>
-      </div>
-    </div>
-    <div class="containe">
-      <div class="myMessage">
-        <div class="grid-item">
-          <ul>
-            <li>
-              <el-avatar
-                shape="square"
-                :size="100"
-                fit="fill"
-                :src="data.villageInfo[0].avatarUrl"
-                @click="upload"
-              />
-            </li>
-            <li>昵称：{{ data.villageInfo[0].nickName }}</li>
-            <li>性别：{{ data.villageInfo[0].gender }}</li>
-            <li>年龄：{{ data.villageInfo[0].birthday }}</li>
-            <li>联系电话：{{ data.villageInfo[0].phone }}</li>
-            <li>家庭住址：{{ data.villageInfo[0].address }}</li>
-            <li><el-tag class="ml-2" type="success" @click="handleEdit">修改</el-tag></li>
-          </ul>
-        </div>
-        <router-view></router-view>
-      </div>
-    </div>
     <!-- 上传头像 -->
     <el-dialog
     width="50%" 
@@ -68,7 +38,6 @@
       </span>
     </template>
     </el-dialog>
-
     <el-dialog 
     width="50%" 
     v-model="data.visible" 
@@ -80,7 +49,7 @@
       </div>
     </template>
     <el-form :model="data.editForm" ref="formRef" :rules="data.formRules">
-      <el-form-item label="姓名" prop="nickName" :label-width="formLabelWidth">
+      <el-form-item label="昵称" prop="nickName" :label-width="formLabelWidth">
         <el-input
           v-model="data.editForm.nickName"
           placeholder="请输入姓名"
@@ -127,36 +96,16 @@
       </span>
     </template>
   </el-dialog>
-  </div>
+</div>
 </template>
+
 <script setup>
 import { reactive,ref,onBeforeMount } from "vue"
-import router from "../../router/index.js"
 import request from '../../request/request'
 import {  ElMessage } from "element-plus"
 import { Plus } from '@element-plus/icons-vue'
 const formLabelWidth = '100px'
-const props = defineProps({
-  column: Number,
-})
 const data = reactive({
-  navMenu: [
-    {
-      id: 1,
-      label: "我的信箱",
-      url: "/villager/messageList",
-    },
-    {
-      id: 2,
-      label: "我的决策",
-      url: "/villager/myPolicy",
-    },
-    {
-      id: 4,
-      label: "我的户籍",
-      url: "/villager/myFamily",
-    }
-  ],
   currentIndex: 0,
   villageInfo: [],
   editForm:{
@@ -177,6 +126,7 @@ const data = reactive({
 const formRef = ref(null);
 onBeforeMount(() => {
   data.villageInfo = JSON.parse(localStorage.getItem('users'))
+  console.log(data.villageInfo[0]);
 })
     // 关闭表单前的回调
     const beforeClose = () => {
@@ -192,11 +142,6 @@ const reset = ()=>{
     address:''
   }
 }
-const clickMenu = function (menu) {
-  data.currentIndex = menu.id;
-  router.push(menu.url);
-}
-
 const upload = () => {
   data.uploadVisible = true
 }
@@ -210,6 +155,10 @@ const editAvatar = () => {
             message: "修改成功！",
             type: "success",
             })
+            data.editForm.username = data.villageInfo[0].username
+            data.editForm.password = data.villageInfo[0].password
+            data.editForm.id = data.villageInfo[0].id
+            localStorage.setItem('users', data.editForm)
             beforeClose()
           }else{
               ElMessage({
@@ -249,104 +198,22 @@ const handleEdit = ()=>{
   data.editForm = data.villageInfo[0]
   data.visible = true
 }
-const exit = () => {
-  router.push("/login")
-}
-
 </script>
 
-<style lang="less">
-
-body {
-  background-color: #e3e9ee;
+<style lang="less" scoped>
   .content{
-
-    .nav {
-  background-color: #79bbff;
-  width: 100%;
-  height: 60px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-
-  .home {
-    color: aliceblue;
-
-    &:hover {
-      color: #337ecc;
-    }
-  }
-
-  ul {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    list-style: none;
-    color: #fff;
-
-    li {
-      margin: 8px 20px;
-      cursor: pointer;
-      &:hover {
-        color: #337ecc;
-      }
-    }
-  }
-
-  .right {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-
-    .el-icon {
-      margin: 2px 4px 0 0;
-    }
-
-    &:hover {
-      color: #fff;
-    }
-  }
-}
-
-.active {
-  color: #337ecc;
-}
-
-.myMessage {
-  height: calc(100vh - 100px);
-  margin: 16px;
-  display: grid;
-  grid-template-columns: minmax(180px, 1fr) 2fr;
-  grid-template-rows: 1;
-  grid-gap: 16px;
-
-  .grid-item {
     background-color: #fff;
+    height: calc(100vh - 140px);
     border-radius: 6px;
     overflow: auto;
-    .title {
-      margin: 20px 0 0 10%;
-    }
-  }
-
-  ul {
+  .info {
     list-style: none;
-    display: grid;
     grid-template-rows: 8;
     gap: 20px;
     justify-content: center;
-    margin-top: 25%;
   }
 }
-  }
-}
-
 .el-dialog {
-  .el-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
   .dialog-footer{
     display: flex;
     justify-content: center;

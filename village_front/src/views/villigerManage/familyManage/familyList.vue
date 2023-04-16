@@ -162,6 +162,7 @@ const load = () => {
         pageNum: allData.currentPage,
         pageSize: allData.pageSize,
         householdName: allData.householdName,
+        name:''
       },
     })
     .then((res) => {

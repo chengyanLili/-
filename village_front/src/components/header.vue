@@ -1,14 +1,15 @@
 <script setup>
-import { reactive, watch } from 'vue'
+import { onBeforeMount, reactive, watch } from 'vue'
 import router from '../router/index'
         let data = reactive({
             isShow: false,
             activeTollId: '',
-            infoItem: ['个人中心', '退出登录']
+            infoItem: ['个人中心', '退出登录'],
+            users:[]
         })
-        function showDetail(e) {
-            data.activeTollId = '1'
-        }
+        onBeforeMount(()=>{
+            data.users =JSON.parse(localStorage.getItem('users'))
+        })
         function exit(){
             router.push({
                 name:'login'
@@ -39,7 +40,7 @@ import router from '../router/index'
 <template>
     <div class="myheader">
         <div class="avatar">
-            <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
+            <el-avatar :src="data.users[0].avatarUrl" />
             <el-dropdown @command="handleCommand">
                 <span>
                     <el-icon style="margin-top:10px;color: #fff;">

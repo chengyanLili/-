@@ -167,8 +167,8 @@ const formatDates = function (cellValue) {
 //  刷新表格
 function load() {
     request.get("/api/family/familyDetail?accountNo="+router.currentRoute.value.query.accountNo).then(res => {
-                        data.tableData = res.data
-                })
+    data.tableData = res.data
+  })
 }
 
 // 编辑
@@ -264,7 +264,6 @@ onMounted (
         })
     }
 )
-
 </script>
 
 <style lang="less" scoped>

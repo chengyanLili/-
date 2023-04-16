@@ -5,8 +5,8 @@
         <div class="msg-icon">
             <el-image style="width: 100px; height: 100px" :src="url" fit="fill" />
         </div>
-        <div class="msgContent">
-            <ul>
+        <div class="msgContent" style="display: block;">
+            <ul class="info">
                 <li>姓名：{{ msg.name }}</li>
                 <li>职务：{{ msg.post }}</li>
                 <li>主要职责：{{ msg.duty }}</li>
@@ -33,14 +33,6 @@ const data = reactive({
     content:''
   },
 });
-
-const drawer = ref(false);
-
-const toMsgDetail = (msg) => {
-  data.noticeForm = msg
-  console.log('msg',msg)
-  drawer.value = true;
-};
 onMounted(() => {
   load();
 });
@@ -61,23 +53,19 @@ const load = () => {
         data.messageList = res.data.data;
         data.total = res.data.total;
       }
-    });
-};
-
-// 获取当前路由
-// let urlName = router.currentRoute.value.name
+    })
+}
 </script>
 <style lang="less" scoped>
 body{
   background-color: #ebecef;
-}
+  
 .grid-item {
   background-color: #fff;
-  height: calc(100vh - 130px);
+  height: calc(100vh - 140px);
   border-radius: 6px;
   overflow: auto;
-}
-.myMessages {
+  .myMessages {
   .msgBody {
     width: 80%;
     overflow: hidden;
@@ -96,14 +84,19 @@ body{
       margin: 0 10px
     }
     .msgContent{
-        ul{
+        .info{
+          display: block;
             list-style: none;
             font-size: 15px;
             font-weight: bold;
+            color: black;
         }
     }
 
   }
+}
+}
+
 }
 
 </style>

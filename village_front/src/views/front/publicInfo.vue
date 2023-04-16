@@ -33,7 +33,7 @@
             </div>
         </div>
 
-    <el-dialog title="详情" v-model="data.viewDialogVis" :before-close="beforeClose" width="80%" >
+    <el-dialog title="详情" v-model="data.viewDialogVis" width="80%" >
       <el-card style="overflow: auto;">
         <div>
           <v-md-editor
@@ -110,8 +110,8 @@ const details = (item)=>{
 
 <style lang="less" scoped>
 .content{
-    background-color: #ffffffeb;
-    height: calc(100vh - 130px);
+    background-color: #fff !important;
+    height: calc(100vh - 140px);
     overflow: auto;
     .el-row{
         justify-content: center;

@@ -8,6 +8,9 @@
             <if test="theme != null">
                 theme = #{theme},
             </if>
+            <if test="isRead != null">
+                isRead = #{isRead},
+            </if>
             <if test="sendName != null">
                 sendName = #{sendName},
             </if>
@@ -48,6 +51,9 @@
         <where>
             <if test="theme != null and theme != ''">
                 and theme like concat('%',#{theme},'%')
+            </if>
+            <if test="sendName != null and sendName != ''">
+                and sendName = #{sendName}
             </if>
         </where>
         LIMIT #{pageNum},#{pageSize}

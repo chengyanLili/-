@@ -12,6 +12,7 @@ public class Users {
     private Integer id;
     private String username;
     private String password;
+    private String gender;
     private Integer identify;
     private String avatarUrl;
     private String address;

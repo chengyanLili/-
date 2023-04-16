@@ -98,14 +98,14 @@ const data = reactive({
 </script>
 
 <style lang="less" scoped>
-body{
-  background-color: #ebecef;
-}
+// body{
+//   background-color: #ebecef;
+// }
 .wrapper{
     display: flex;
     justify-content: space-around;
     background-color: #ffffffeb;
-    height: calc(100vh - 130px);
+    height: calc(100vh - 140px);
     overflow: auto;
     .left{
     width: 50%;

@@ -18,10 +18,11 @@ public class FamilyService {
 
     public Map<String,Object> findPage(@RequestParam Integer pageNum,
                                        @RequestParam Integer pageSize,
-                                       @RequestParam String householdName
+                                       @RequestParam String householdName,
+                                       @RequestParam String name
                                        ){
         pageNum = (pageNum - 1) * pageSize;
-        List<Family> data = familyMapper.selectPage(pageNum,pageSize,householdName);
+        List<Family> data = familyMapper.selectPage(pageNum,pageSize,householdName,name);
         long total = familyMapper.selectTotal();
         Map<String,Object> res = new HashMap<>();
         res.put("data",data);

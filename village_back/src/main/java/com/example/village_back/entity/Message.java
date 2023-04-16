@@ -9,6 +9,7 @@ import java.util.Date;
 public class Message {
     @TableId(value = "id")
     private Integer id;
+    private Integer isRead;
     private String theme;
     private String sendName;
     private String content;

@@ -25,7 +25,7 @@ public interface FamilyMapper {
     //    批量删除
     Integer deleteBatch(@Param("familyIds") List<Long> familyIds);
 
-    List<Family> selectPage(Integer pageNum, Integer pageSize,String householdName);
+    List<Family> selectPage(Integer pageNum, Integer pageSize,String householdName,String name);
     long selectTotal();
 
     @Select("select * from family where accountNo = #{accountNo}")

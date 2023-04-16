@@ -22,8 +22,9 @@
   > 
     <el-table-column type="selection" width="55" />
     <el-table-column prop="title" label="标题" width="120" show-overflow-tooltip />
+    <el-table-column prop="noticeType" label="通知类型" width="120" show-overflow-tooltip />
     <el-table-column prop="createTime" sortable label="发布时间" width="120" />
-    <el-table-column prop="content" label="文章内容">
+    <el-table-column prop="content" label="文章内容" width="120">
         <template #default="scope">
           <el-button @click="view(scope.row.content)" type="primary">查看内容</el-button>
         </template>
@@ -270,7 +271,7 @@ const handleDelete = ( row ) => {
       }
     });
   });
-};
+}
 
 // 每页个数的改变
 const handleSizeChange = (val) => {
