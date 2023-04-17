@@ -4,7 +4,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/front',
+      path: '/',
       name: 'front',
       component: () => import('../views/home.vue'),
       children:[
@@ -43,12 +43,12 @@ const router = createRouter({
     
     // 村干部界面
     {
-      path: '/',
+      path: '/populationFile',
       name: 'container',
       component: () => import('../views/container/container.vue'),
       children:[
         {
-          path: '/home',
+          path: '/populationFile',
           name: 'populationFile',
           component: () => import('../views/villigerManage/populationFile.vue')
         },
@@ -105,35 +105,6 @@ const router = createRouter({
           path: '/landChange',
           name: 'landChange',
           component: () => import('@/views/landChange/landChange.vue')
-        }
-      ]
-    },
-
-    // 普通村民的界面
-    {
-      path: '/villager',
-      name: 'villager',
-      component: () => import('../views/villagerLayout/Layout.vue'),
-      children:[
-        {
-          path:'/villager/messageList',
-          name:'messageList',
-          component:() => import('../views/front/messageList.vue')
-        },
-        {
-          path:'/villager/myPolicy',
-          name:'myPolicy',
-          component:() => import('../views/villager/myPolicy.vue')
-        },
-        {
-          path:'/villager/myFamily',
-          name:'myFamily',
-          component:() => import('../views/villager/myFamily.vue')
-        },
-        {
-          path:'/villager/messageDetail',
-          name:'messageDetail',
-          component:() => import('../views/villager/messageDetail.vue')
         }
       ]
     },

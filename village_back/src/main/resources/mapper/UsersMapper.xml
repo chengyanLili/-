@@ -50,7 +50,7 @@
         <!--           加这个<where></where>这个条件-->
         <where>
             <if test="username != null and username != ''">
-                and username like concat('%',#{username},'%')
+                and username = #{username}
             </if>
         </where>
         LIMIT #{pageNum},#{pageSize}
@@ -60,7 +60,7 @@
         SELECT count(id) from users
         <where>
             <if test="username != null and username != ''">
-                and username like concat('%',#{username},'%')
+                and username = #{username}
             </if>
         </where>
     </select>

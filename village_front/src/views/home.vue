@@ -1,6 +1,7 @@
 <script setup>
-import { reactive,ref } from 'vue';
+import { reactive,onMounted } from 'vue';
 import router from '../router';
+import {  ElMessage } from "element-plus"
   const data = reactive({
     navMenu : [
       { id:1,
@@ -33,12 +34,41 @@ import router from '../router';
       }
     ],
     policyList:[],
-    currentIndex:0
+    currentIndex:0,
+    isLogin:[]
+  })
+  onMounted(()=>{
+    data.currentIndex = 1
+    router.push('/front/frontHome')
+    data.isLogin = JSON.parse(localStorage.getItem('users'))
   })
 
  const clickMenu = function(menu){
+  if(menu.id == 5){
+    console.log(data.isLogin);
+    if(!data.isLogin || data.isLogin.length == 0){
+    ElMessage({
+            showClose: true,
+            message: "请登录",
+            type: "info",
+            })
+  }
+  return
+  }else if(menu.id == 6){
+    console.log(data.isLogin);
+    if(!data.isLogin || data.isLogin.length == 0){
+    ElMessage({
+            showClose: true,
+            message: "请登录",
+            type: "info",
+            })
+  }
+  return
+   
+  }else{
   data.currentIndex = menu.id
-  router.push(menu.url)
+    router.push(menu.url)
+ }
  }
 
 </script>

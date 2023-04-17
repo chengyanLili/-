@@ -126,7 +126,6 @@ const replys = () => {
 const noReply = () => {
   data.list = data.noReply
 }
-
 const bfClose =()=>{
   dialogVisible.value = false
   load()
@@ -136,7 +135,8 @@ const toMsgDetail = (msg) => {
   data.noticeForm.isRead = 1
   if(msg.reply){
     request.post("/api/message/addOrUpdate", data.noticeForm)
-    data.noReadTotal--
+    data.noReadTotal > 0 ? data.noReadTotal-- : 0
+    
   }
   dialogFormVisible.value = true
 }
@@ -246,9 +246,6 @@ const send = () => {
     }
   })
 }
-
-// 获取当前路由
-// let urlName = router.currentRoute.value.name
 </script>
 
 <style lang="less" scoped>
@@ -331,6 +328,8 @@ const send = () => {
 }
 
 .grid-item {
+  background-color: #fff;
+  height: calc(100vh - 140px);
   border-radius: 6px;
   overflow: auto;
   .title {

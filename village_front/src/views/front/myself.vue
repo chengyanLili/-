@@ -6,23 +6,28 @@
             shape="square"
             :size="100"
             fit="fill"
-            :src="data.villageInfo[0].avatarUrl"
+            :src="data.editForm.avatarUrl"
             @click="upload"
           />
         </li>
-        <li>昵称：{{ data.villageInfo[0].nickName }}</li>
-        <li>性别：{{ data.villageInfo[0].gender }}</li>
-        <li>年龄：{{ data.villageInfo[0].birthday }}</li>
-        <li>联系电话：{{ data.villageInfo[0].phone }}</li>
-        <li>家庭住址：{{ data.villageInfo[0].address }}</li>
+        <li>昵称：{{ data.editForm.nickName }}</li>
+        <li>性别：{{ data.editForm.gender }}</li>
+        <li>年龄：{{ data.editForm.birthday }}</li>
+        <li>联系电话：{{ data.editForm.phone }}</li>
+        <li>家庭住址：{{ data.editForm.address }}</li>
         <li><el-tag class="ml-2" type="success" @click="handleEdit">修改</el-tag></li>
       </ul>
-    <!-- 上传头像 -->
+    <!-- 修改头像 -->
     <el-dialog
     width="50%" 
     title="修改头像"
     v-model="data.uploadVisible" >
-    <el-upload action="#" list-type="picture-card" :auto-upload="false">
+    <el-upload
+      ref="uploadRef"
+      action="http://localhost:9090/file/upload" 
+      list-type="picture-card"
+      :on-success="fileUploadSuccess"
+      >
       <el-icon><Plus /></el-icon>
       <template #file="{ file }">
       <div>
@@ -32,7 +37,7 @@
   </el-upload>
   <template #footer>
       <span class="dialog-footer">
-        <el-button type="primary" @click="editAvatar">
+        <el-button type="primary" @click="submit">
           提交
         </el-button>
       </span>
@@ -40,8 +45,7 @@
     </el-dialog>
     <el-dialog 
     width="50%" 
-    v-model="data.visible" 
-    :before-close="beforeClose"
+    v-model="data.visible"
     >
     <template #header>
       <div class="my-header">
@@ -89,7 +93,6 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="reset">重置</el-button>
         <el-button type="primary" @click="submit">
           提交
         </el-button>
@@ -100,25 +103,28 @@
 </template>
 
 <script setup>
-import { reactive,ref,onBeforeMount } from "vue"
+import { reactive,ref,onBeforeMount,onMounted } from "vue"
 import request from '../../request/request'
 import {  ElMessage } from "element-plus"
 import { Plus } from '@element-plus/icons-vue'
 const formLabelWidth = '100px'
 const data = reactive({
+  uploadRef:'',
   currentIndex: 0,
+  avatar:'',
   villageInfo: [],
   editForm:{
     nickName:'',
     gender:'',
     birthday:'',
     phone:'',
-    address:''
+    address:'',
+    avatarUrl:''
   },
   visible: false,
   uploadVisible: false,
   formRules: {
-    nickName: [{ required: true, message: "请输入姓名", trigger: "blur" }],
+    nickName: [{ required: true, message: "请输入昵称", trigger: "blur" }],
     gender: [{ required: true, message: "请输入性别", trigger: "blur" }],
     phone: [{ required: true, message: "请输入电话号码", trigger: "blur" }]
   },
@@ -126,49 +132,28 @@ const data = reactive({
 const formRef = ref(null);
 onBeforeMount(() => {
   data.villageInfo = JSON.parse(localStorage.getItem('users'))
-  console.log(data.villageInfo[0]);
 })
-    // 关闭表单前的回调
-    const beforeClose = () => {
-  reset()
-  data.visible = false;
-}
-const reset = ()=>{
-  data.editForm = {
-    nickName:'',
-    gender:'',
-    birthday:'',
-    phone:'',
-    address:''
-  }
+onMounted(()=>{
+  request.get('/api/users/findPage', {
+      params: {
+        pageNum: 1,
+        pageSize: 100,
+        username: data.villageInfo[0].username
+      }}
+      ).then(res=>{
+    if(res.status == 200){
+      data.editForm = res.data.data[0]
+    }
+  })
+})
+// 头像上传成功的回调
+const fileUploadSuccess = (res) => {
+ data.editForm.avatarUrl = res
 }
 const upload = () => {
   data.uploadVisible = true
 }
-// 提交表单
-const editAvatar = () => {
-  console.log(file.url);
-      request.post("/api/users/edit",data.editForm).then((res)=>{
-        if(res.status == 200){
-          ElMessage({
-            showClose: true,
-            message: "修改成功！",
-            type: "success",
-            })
-            data.editForm.username = data.villageInfo[0].username
-            data.editForm.password = data.villageInfo[0].password
-            data.editForm.id = data.villageInfo[0].id
-            localStorage.setItem('users', data.editForm)
-            beforeClose()
-          }else{
-              ElMessage({
-              showClose: true,
-              message: "修改失败,请联系管理员！",
-              type: "error",
-          })
-        }
-      })
-  }
+
   
 // 提交表单
 const submit = () => {
@@ -181,7 +166,8 @@ const submit = () => {
             message: "修改成功！",
             type: "success",
             })
-            beforeClose()
+            data.visible = false;
+            data.uploadVisible = false
           }else{
               ElMessage({
               showClose: true,
@@ -194,8 +180,6 @@ const submit = () => {
   })
   }
 const handleEdit = ()=>{
-  console.log(data.villageInfo[0]);
-  data.editForm = data.villageInfo[0]
   data.visible = true
 }
 </script>
@@ -217,6 +201,10 @@ const handleEdit = ()=>{
   .dialog-footer{
     display: flex;
     justify-content: center;
+  }
+  .el-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
 }
 </style>
