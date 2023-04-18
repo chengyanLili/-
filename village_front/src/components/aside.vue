@@ -11,6 +11,13 @@ import router from '../router/index.js'
           url: 'users/users',
     },
     {
+         path: '/voting',
+          name: 'voting',
+          lable: '选举管理',
+          icon: 'Edit',
+          url: 'voting/voting',
+    },
+    {
       id:1,
       lable: '村民信息管理',
       icon: 'User',

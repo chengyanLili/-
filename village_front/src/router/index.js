@@ -73,9 +73,14 @@ const router = createRouter({
           component: () => import('../views/villigerManage/floatPerson.vue')
         },
         {
-          path: '/produce',
-          name: 'produce',
-          component: () => import('../views/committee/produce.vue')
+          path: '/voting',
+          name: 'voting',
+          component: () => import('../views/voting/voting.vue')
+        },
+        {
+          path: '/candidate',
+          name: 'candidate',
+          component: () => import('../views/voting/candidate.vue')
         },
         {
           path: '/committee',

@@ -64,7 +64,13 @@ export const config = {
                             value: '奶奶',
                             label: '奶奶',
                     },
-            ]
-        
+            ],
+        VOTETYPE:[
+        {label:'村长',value:'村长'},
+        {label:'村民委员会主任',value:'村民委员会主任'},
+        {label:'村民委员会副主任',value:'村民委员会副主任'},
+        {label:'党总支书记',value:'党总支书记'},
+        {label:'小组长',value:'小组长'}
+        ]
     }
     

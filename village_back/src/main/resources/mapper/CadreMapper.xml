@@ -32,6 +32,9 @@
             <if test="cadresDesc != null">
                 cadresDesc = #{cadresDesc},
             </if>
+            <if test="avatarUrl != null">
+                avatarUrl = #{avatarUrl},
+            </if>
         </set>
         <where>
             id = #{id}

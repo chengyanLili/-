@@ -1,19 +1,20 @@
 <template>
-    <div class="title">村委会人员管理</div>
+    <div class="title">选举管理</div>
     <div class="search">
-      <el-input v-model="data.searchForm.name" style="width:150px;margin-right: 10px;" placeholder="请输入姓名" />
-      <el-input v-model="data.searchForm.phone" style="width:150px;margin-right: 10px;" placeholder="请输入电话" />
-      <el-input v-model="data.searchForm.idCard" style="width:180px;margin-right: 10px;" placeholder="请输入身份证号" />
+      <el-select v-model="data.searchForm.voteType"  clearable class="m-2" style="margin-right: 10px;"  placeholder="请选择竞选职位">
+    <el-option
+      v-for="item in config.VOTETYPE"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    />
+  </el-select>
       <el-button @click="load" type="primary"><el-icon style="font-size: 18px;margin-right: 6px">
           <Search />
         </el-icon>搜索</el-button>
-      <!-- <el-button type="primary"><el-icon style="font-size: 18px;margin-right: 6px">
-          <Download />
-        </el-icon>导出Excel
-      </el-button> -->
     </div>
     <div class="add">
-    <el-button type="primary" @click="handleAdd">添加村干部</el-button>
+    <el-button type="primary" @click="handleAdd">添加选举</el-button>
     <el-button type="danger" @click="delBatch">删除选中行数据</el-button>
   </div>
 
@@ -23,30 +24,16 @@
     :border="true"
   > 
     <el-table-column type="selection" width="55" />
-    <el-table-column prop="name" label="姓名" width="120" />
-    <el-table-column prop="avatarUrl" label="照片" width="130">
-      <template #default="scope">
-        <el-avatar
-            style="width:50px;height:50px"
-            shape="square"
-            :size="100"
-            fit="fill"
-            :src="scope.row.avatarUrl"
-          />
-      </template>
-     
-    </el-table-column>
-    <el-table-column prop="gender" label="性别" width="60" />
-    <el-table-column prop="phone" label="电话号码" width="120" />
-    <el-table-column prop="age" label="年龄" width="60" :formatter="formatAge"/>
-    <el-table-column prop="idCard" label="身份证号码" width="168" />
-    <el-table-column prop="post" label="岗位" width="120" />
-    <el-table-column prop="duty" label="主要职责" width="120" />
-    <el-table-column fixed="right" label="操作" width="150">
+    <el-table-column prop="voteType" label="竞选职位" />
+    <el-table-column prop="duty" show-overflow-tooltip label="主要职责" />
+    <el-table-column prop="startTime" label="开始时间"  />
+    <el-table-column prop="endTime" label="结束时间" />
+    <el-table-column fixed="right" label="操作" width="200">
       <template #default="scope">
         <el-button type="primary" size="small" @click="handleEdit(scope.row)"
-          >编辑</el-button
-        >
+          >编辑</el-button>
+          <el-button type="primary" size="small" @click="handleDetail(scope.row)"
+          >详情</el-button>
         <el-button
           size="small"
           type="danger"
@@ -56,52 +43,41 @@
       </template>
     </el-table-column>
   </el-table>
+
   <!-- 添加/修改村干部 -->
-  <el-dialog width="60%" v-model="data.dialogTableVisible" :before-close="beforeClose" :title="data.isEdit ? '修改村干部' : '添加村干部'">
+  <el-dialog width="60%" v-model="data.dialogTableVisible" :before-close="beforeClose" :title="data.isEdit ? '修改选举' : '添加选举'">
     <el-form ref="formRef" :model="data.addForm" :rules="data.formRules">
-      <el-form-item label="姓名" prop="name" :label-width="formLabelWidth">
-        <el-input v-model="data.addForm.name" placeholder="请输入姓名" autocomplete="off" />
+    <el-form-item label="竞选职位" prop="duty" :label-width="formLabelWidth">
+        <el-select v-model="data.addForm.voteType"  clearable class="m-2" style="margin-right: 10px;"  placeholder="请选择竞选职位">
+            <el-option
+            v-for="item in config.VOTETYPE"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            />
+        </el-select>
+     </el-form-item>
+      <el-form-item label="主要职责" prop="duty" :label-width="formLabelWidth">
+        <el-input type="textarea" v-model="data.addForm.duty" placeholder="请输入主要职责" autocomplete="off" />
       </el-form-item>
-      <el-form-item label="性别" prop="gender" :label-width="formLabelWidth">
-        <el-radio-group v-model="data.addForm.gender">
-          <el-radio :label="'男'">男</el-radio>
-          <el-radio :label="'女'">女</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="电话号码" prop="phone" :label-width="formLabelWidth">
-        <el-input v-model="data.addForm.phone" placeholder="请输入电话号码" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="出生日期" prop="birthday" :label-width="formLabelWidth">
+      <el-form-item label="开始时间" prop="startTime" :label-width="formLabelWidth">
         <el-date-picker
-        v-model="data.addForm.birthday"
+        v-model="data.addForm.startTime"
         type="date"
-        placeholder="请选择出生日期"
+        placeholder="请选择开始时间"
         format="YYYY/MM/DD"
         value-format="YYYY-MM-DD"
         style="width:200px"
       /> </el-form-item>
-      <el-form-item label="身份证号码" prop="idCard" :label-width="formLabelWidth">
-        <el-input v-model="data.addForm.idCard" placeholder="请输入身份证号" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="岗位" prop="post" :label-width="formLabelWidth">
-        <el-input v-model="data.addForm.post" placeholder="请输入岗位" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="主要职责" prop="duty" :label-width="formLabelWidth">
-        <el-input type="textarea" v-model="data.addForm.duty" placeholder="请输入主要职责" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="照片" prop="avatarUrl" :label-width="formLabelWidth">
-        <el-upload
-          ref="uploadRef"
-          class="upload-demo"
-          action="http://localhost:9090/file/upload"
-          :auto-upload="true"
-          :on-success="fileUploadSuccess"
-        >
-          <template #trigger>
-            <el-button type="primary">点击上传</el-button>
-          </template>
-        </el-upload>
-      </el-form-item>
+      <el-form-item label="结束时间" prop="endTime" :label-width="formLabelWidth">
+        <el-date-picker
+        v-model="data.addForm.endTime"
+        type="date"
+        placeholder="请选择结束时间"
+        format="YYYY/MM/DD"
+        value-format="YYYY-MM-DD"
+        style="width:200px"
+      /> </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
@@ -127,37 +103,33 @@
 import { onMounted,ref, reactive } from 'vue'
 import { ElMessageBox, ElMessage } from "element-plus"
 import request from '../../request/request'
+import router from '../../router/index.js'
+import {config} from '../../constants/index.js'
 const formLabelWidth = '140px'
 const formRef = ref(null);
 const data = reactive({
-  tableData : [],
-   currentPage: 1,
-  pageSize: 10,
-  total: 0,
-  isEdit:false,
-  idList: [],
+    tableData : [{duty:'哈哈哈'}],
+    currentPage: 1,
+    pageSize: 10,
+    total: 0,
+    isEdit:false,
+    idList: [],
 dialogTableVisible: false,
 isEdit: false,
 searchForm: {
-    name: '',
-    phone: '',
-    idCard: ''
+    voteType: ''
   },
 addForm: {
-    name: '',
-    phone: '',
-    age: '',
-    gender: '',
-    idCard: '',
-    post: '',
+    voteType: '',
     duty: '',
-    avatarUrl:''
+    startTime: '',
+    endTime: '',
   },
   formRules: {
-    name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-    gender: [{ required: true, message: "请输入性别", trigger: "blur" }],
-    phone: [{ required: true, message: "请输入电话号码", trigger: "blur" }],
-    idCard: [{ required: true, message: "请输入身份证号", trigger: "blur" }]
+    voteType: [{ required: true, message: "请选择竞选岗位", trigger: "blur" }],
+    duty: [{ required: true, message: "请输入主要职责", trigger: "blur" }],
+    startTime: [{ required: true, message: "请选择开始时间", trigger: "blur" }],
+    endTime: [{ required: true, message: "请选择结束时间", trigger: "blur" }]
   },
   maxheight :window.innerHeight - 280
 })
@@ -189,6 +161,10 @@ const formatAge = function (cellValue) {
   }else{return}
   
 }
+// 详情
+const handleDetail = () => {
+    router.push('/candidate')
+}
 // 头像上传成功的回调
 const fileUploadSuccess = (res) => {
   data.addForm.avatarUrl = res
@@ -196,14 +172,10 @@ const fileUploadSuccess = (res) => {
 // 重置表单
 function reset() {
   data.addForm = {
-    name: '',
-    phone: '',
-    age: '',
-    gender: '',
-    idCard: '',
-    post: '',
+    voteType: '',
     duty: '',
-    avatarUrl:''
+    startTime: '',
+    endTime: '',
   },
   formRef.value.resetFields()
 }
@@ -381,6 +353,10 @@ const handleDelete = ( row ) => {
   .el-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
+  }
+  .dialog-footer{
+    display: flex;
+    justify-content: center;
   }
 }
 </style>

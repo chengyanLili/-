@@ -9,8 +9,8 @@ import java.util.List;
 @Mapper
 public interface CadreMapper {
 
-    @Insert("INSERT INTO `cadre`(name,gender,birthday,duty,phone,post,cadresDesc,idCard)\n" +
-            "values(#{name},#{gender},#{birthday},#{duty},#{phone},#{post},#{cadresDesc},#{idCard})")
+    @Insert("INSERT INTO `cadre`(name,gender,birthday,duty,phone,post,cadresDesc,idCard,avatarUrl)\n" +
+            "values(#{name},#{gender},#{birthday},#{duty},#{phone},#{post},#{cadresDesc},#{idCard},#{avatarUrl})")
 
     int insert(Cadre cadre);
 

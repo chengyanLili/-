@@ -34,10 +34,10 @@ const login = async () => {
                         type: 'success',
                     })
                     if (user.identify == 1) {
-                        router.push('/home')
+                        router.push('/populationFile')
                         return
                     }
-                    router.push('/villager')
+                    router.push('/front/frontHome')
                    
                 } else {
                     ElMessage({

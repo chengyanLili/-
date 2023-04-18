@@ -17,4 +17,5 @@ public class Cadre {
     private String post;
     private String idCard;
     private String cadresDesc;
+    private String avatarUrl;
 }

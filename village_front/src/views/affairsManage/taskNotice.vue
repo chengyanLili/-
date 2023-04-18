@@ -3,13 +3,13 @@
     <div class="search">
       <el-input v-model="data.searchForm.searchName" clearable style="width:150px;margin-right: 10px;" placeholder="请输入标题" />
       <el-select v-model="data.searchForm.noticeType"  clearable class="m-2" style="margin-right: 10px;"  placeholder="请选择通知类型">
-    <el-option
-      v-for="item in data.types"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value"
-    />
-  </el-select>
+        <el-option
+          v-for="item in data.types"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        />
+      </el-select>
       <el-button @click="load" type="primary"><el-icon style="font-size: 18px;margin-right: 6px">
           <Search />
         </el-icon>搜索</el-button>
