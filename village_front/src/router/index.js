@@ -24,14 +24,14 @@ const router = createRouter({
           component: () => import('../views/front/publicInfo.vue')
         },
         {
-          path: '/front/comeHT',
-          name: 'comeHT',
-          component: () => import('../views/front/comeHT.vue')
-        },
-        {
           path:'/front/message',
           name:'message',
           component:() => import('../views/front/messageList.vue')
+        },
+        {
+          path:'/front/myVoting',
+          name:'myVoting',
+          component:() => import('../views/front/myVoting.vue')
         },
         {
           path:'/front/myself',

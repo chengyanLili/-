@@ -1,5 +1,5 @@
 <template>
-<div class="grid-item messages">
+<div class="cadres">
     <div class="myMessages" v-for="(msg, index) in data.messageList" :key="index">
       <div class="msgBody">
         <div class="msg-icon">
@@ -60,7 +60,7 @@ const load = () => {
 body{
   background-color: #ebecef;
   
-.grid-item {
+.cadres {
   background-color: #fff;
   height: calc(100vh - 140px);
   border-radius: 6px;

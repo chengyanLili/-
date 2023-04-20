@@ -21,7 +21,7 @@
     <el-table-column prop="sendName" label="发件人姓名" width="120" show-overflow-tooltip />
     <el-table-column prop="sendTime" sortable label="发信时间" width="120" :formatter="formatDates2"/>
     <el-table-column prop="handleName" label="处理人姓名" width="120" />
-    <el-table-column prop="msgStatus" label="信息状态" width="120" >
+    <el-table-column prop="msgStatus" sortable label="信息状态" width="120" >
       <template #default="scope">
         <el-tag v-if="scope.row.msgStatus == '待处理'" type="info" size="small">待处理</el-tag>
         <el-tag v-if="scope.row.msgStatus == '已处理'" type="success" size="small">已处理</el-tag>

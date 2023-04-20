@@ -1,8 +1,9 @@
 <template>
+  <div class="task">
     <div class="title">任务列表</div>
     <div class="search">
       <el-input v-model="data.searchForm.searchName" clearable style="width:150px;margin-right: 10px;" placeholder="请输入标题" />
-      <el-select v-model="data.searchForm.noticeType"  clearable class="m-2" style="margin-right: 10px;"  placeholder="请选择通知类型">
+      <el-select v-model="data.searchForm.noticeType"  clearable class="m-2" style="margin-right: 10px;"  placeholder="请选择发布类型">
         <el-option
           v-for="item in data.types"
           :key="item.value"
@@ -65,10 +66,7 @@
           <el-form-item label="主题">
             <el-input v-model="data.noticeForm.title" clearable autocomplete="off" placeholder="请输入主题"></el-input>
           </el-form-item>
-          <el-form-item label="姓名">
-            <el-input v-model="data.noticeForm.publishName" clearable autocomplete="off" placeholder="请输入发布者姓名"></el-input>
-          </el-form-item>
-          <el-form-item label="姓名">
+          <el-form-item label="请选择发布类型" label-width="200px">
             <el-select v-model="data.noticeForm.noticeType" clearable class="m-2" style="margin-right: 10px;"  placeholder="请选择通知类型">
             <el-option
               v-for="item in data.types"
@@ -106,7 +104,7 @@
         </div>
       </el-card>
     </el-dialog>
-    
+  </div>
 </template>
 
 <script setup>
@@ -165,7 +163,6 @@ const load = () => {
       noticeType: data.searchForm.noticeType
     }
   }).then(res=>{
-    console.log('$',res.data);
    data.tableData = res.data.data
    data.total = res.data.total
   })
@@ -196,7 +193,6 @@ function imgAdd(event,insertImage,files) {
         data: formData,
         headers: {'Content-Type': 'multipart/form-data'},
       }).then((res) => {
-        console.log('res',res);
         // 第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
         insertImage({
                     url:res.data
@@ -285,7 +281,8 @@ const handleCurrentChange = (val) => {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+.task{
   .title{
    font-size: 18px;
    margin-bottom: 10px;
@@ -309,4 +306,5 @@ const handleCurrentChange = (val) => {
     justify-content: center;
     align-items: center;
   }
+}
 </style>

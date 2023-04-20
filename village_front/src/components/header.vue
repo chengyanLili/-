@@ -14,6 +14,7 @@ import router from '../router/index'
             router.push({
                 name:'login'
             })
+            localStorage.removeItem('users')
         }
         watch(
             //监听控制div显示隐藏的变量activeTollId

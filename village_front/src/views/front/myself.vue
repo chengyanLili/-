@@ -1,5 +1,5 @@
 <template>
-    <div class="content">
+    <div class="mySelf">
       <ul class="info" style="color:black;display: grid; margin-top: 50px;">
         <li>
           <el-avatar
@@ -132,6 +132,8 @@ const data = reactive({
 const formRef = ref(null);
 onBeforeMount(() => {
   data.villageInfo = JSON.parse(localStorage.getItem('users'))
+  data.editForm == JSON.parse(localStorage.getItem('users'))
+  console.log('登录',data.villageInfo)
 })
 onMounted(()=>{
   request.get('/api/users/findPage', {
@@ -185,7 +187,7 @@ const handleEdit = ()=>{
 </script>
 
 <style lang="less" scoped>
-  .content{
+  .mySelf{
     background-color: #fff;
     height: calc(100vh - 140px);
     border-radius: 6px;
@@ -196,7 +198,7 @@ const handleEdit = ()=>{
     gap: 20px;
     justify-content: center;
   }
-}
+  
 .el-dialog {
   .dialog-footer{
     display: flex;
@@ -206,5 +208,6 @@ const handleEdit = ()=>{
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
+}
 }
 </style>

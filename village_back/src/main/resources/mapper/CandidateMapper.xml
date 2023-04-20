@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.village_back.mapper.CandidateMapper">
+
+    <update id="update">
+        update `candidate`
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test="voteType != null">
+                voteType = #{voteType},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="avatarUrl != null">
+                avatarUrl = #{avatarUrl},
+            </if>
+            <if test="votes != null">
+                votes = #{votes},
+            </if>
+            <if test="experience != null">
+                experience = #{experience},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    <select  id = "deleteBatch" resultType="java.lang.Integer">
+        delete  from  candidate where id in
+        <foreach collection="ids"  item="item" index ="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectPage" resultType="com.example.village_back.entity.Candidate">
+        SELECT * FROM candidate
+        <!--           加这个<where></where>这个条件-->
+        <where>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone =#{phone}
+            </if>
+            <if test="voteType != null and voteType != ''">
+                and voteType =#{voteType}
+            </if>
+        </where>
+        LIMIT #{pageNum},#{pageSize}
+    </select>
+
+    <select id="selectTotal" resultType="java.lang.Long">
+        SELECT count(id) from candidate
+        <where>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone =#{phone}
+            </if>
+            <if test="voteType != null and voteType != ''">
+                and voteType =#{voteType}
+            </if>
+        </where>
+    </select>
+</mapper>

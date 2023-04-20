@@ -1,4 +1,5 @@
 <template>
+  
     <div class="title">用户管理</div>
     <div class="search">
       <el-input v-model="data.username" clearable style="width:150px;margin-right: 10px;" placeholder="请输入姓名" />
@@ -193,7 +194,7 @@ onMounted(
 </script>
 
 
-<style lang="less">
+<style lang="less" scoped>
   .title{
    font-size: 18px;
   }

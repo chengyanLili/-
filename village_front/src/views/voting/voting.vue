@@ -1,6 +1,7 @@
 <template>
     <div class="title">选举管理</div>
     <div class="search">
+      <el-input v-model="data.searchForm.year" clearable style="width:180px;margin-right: 10px;" placeholder="请输入届别" />
       <el-select v-model="data.searchForm.voteType"  clearable class="m-2" style="margin-right: 10px;"  placeholder="请选择竞选职位">
     <el-option
       v-for="item in config.VOTETYPE"
@@ -15,6 +16,7 @@
     </div>
     <div class="add">
     <el-button type="primary" @click="handleAdd">添加选举</el-button>
+    <el-button type="primary" @click="handleDetail">候选人管理</el-button>
     <el-button type="danger" @click="delBatch">删除选中行数据</el-button>
   </div>
 
@@ -28,12 +30,10 @@
     <el-table-column prop="duty" show-overflow-tooltip label="主要职责" />
     <el-table-column prop="startTime" label="开始时间"  />
     <el-table-column prop="endTime" label="结束时间" />
-    <el-table-column fixed="right" label="操作" width="200">
+    <el-table-column fixed="right" label="操作" width="160">
       <template #default="scope">
         <el-button type="primary" size="small" @click="handleEdit(scope.row)"
           >编辑</el-button>
-          <el-button type="primary" size="small" @click="handleDetail(scope.row)"
-          >详情</el-button>
         <el-button
           size="small"
           type="danger"
@@ -117,6 +117,7 @@ const data = reactive({
 dialogTableVisible: false,
 isEdit: false,
 searchForm: {
+    year:'',
     voteType: ''
   },
 addForm: {
@@ -145,29 +146,10 @@ onMounted(
       })()
     }
   )
-  // 年龄格式
-const formatAge = function (cellValue) {
-  if(cellValue.birthday !== null){
-    let currentYear = new Date().getFullYear() //当前的年份
-            let calculationYear = new Date(cellValue.birthday.split('T')[0]).getFullYear() //计算的年份
-            const wholeTime = currentYear + cellValue.birthday.split('T')[0].substring(4) //周岁时间
-            const calculationAge = currentYear - calculationYear //按照年份计算的年龄
-            //判断是否过了生日
-            if (new Date().getTime() > new Date(wholeTime).getTime()){
-                return calculationAge
-            }else {
-                return calculationAge - 1
-            }
-  }else{return}
-  
-}
+
 // 详情
 const handleDetail = () => {
     router.push('/candidate')
-}
-// 头像上传成功的回调
-const fileUploadSuccess = (res) => {
-  data.addForm.avatarUrl = res
 }
 // 重置表单
 function reset() {
@@ -197,13 +179,12 @@ const handleCurrentChange = (val) => {
 }
 // 获取全部的流动人口信息
 const load = () => {
-  request.get('/api/cadre/findPage', {
+  request.get('/api/voting/findPage', {
     params: {
       pageNum: data.currentPage,
       pageSize: data.pageSize,
-      name: data.searchForm.name,
-      phone: data.searchForm.phone,
-      idCard: data.searchForm.idCard
+      year: data.searchForm.year,
+      voteType: data.searchForm.voteType
     }
   }).then((res) => {
     if (res.status = '200') {
@@ -230,7 +211,7 @@ const submit = () => {
   if(data.isEdit){
     formRef.value.validate((valid)=>{
     if(valid){
-      request.post("/api/cadre/addOrUpdate",data.addForm).then((res)=>{
+      request.post("/api/voting/addOrUpdate",data.addForm).then((res)=>{
         if(res.status == 200){
           ElMessage({
             showClose: true,
@@ -252,7 +233,7 @@ const submit = () => {
   }else{
     formRef.value.validate((valid)=>{
     if(valid){
-      request.post("/api/cadre/addOrUpdate",data.addForm).then((res)=>{
+      request.post("/api/voting/addOrUpdate",data.addForm).then((res)=>{
         if(res.status == 200){
           ElMessage({
             showClose: true,
@@ -282,7 +263,7 @@ const delBatch = () => {
     cancelButtonText: "取消",
     type: "warning",
   }).then(() => {
-    request.post("/api/cadre/del/batch", ids).then((res) => {
+    request.post("/api/voting/del/batch", ids).then((res) => {
       if (res.status == 200) {
         ElMessage({
           showClose: true,
@@ -315,7 +296,7 @@ const handleDelete = ( row ) => {
     cancelButtonText: "取消",
     type: "warning",
   }).then(() => {
-    request.delete("/api/cadre/delete/" + row.id).then((res) => {
+    request.delete("/api/voting/delete/" + row.id).then((res) => {
       if (res.status == 200) {
         ElMessage({
           showClose: true,

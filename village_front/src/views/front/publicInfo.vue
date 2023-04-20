@@ -1,5 +1,6 @@
 <template>
-            <div class="content">
+  <div class="publicInfo">
+    <div class="content">
                 <div class="icons">
                     <el-row>
             <el-col :sm="6" :lg="6" @click="policy">
@@ -13,7 +14,7 @@
             <el-col :sm="6" :lg="6" @click="carrayOut">
             <el-result
                 icon="warning"
-                title="决策执行"
+                title="村务通知"
             >
             </el-result>
             </el-col>
@@ -46,7 +47,7 @@
     </el-dialog>
         
     </div>
-
+  </div>
 </template>
 
 <script setup>
@@ -79,7 +80,7 @@ const data = reactive({
         case '上级政策':
           data.policyList.push(v)
           break
-        case '决策执行':
+        case '村务通知':
           data.carrayOut.push(v)
           break
         case '落实完成':
@@ -109,7 +110,8 @@ const details = (item)=>{
 </script>
 
 <style lang="less" scoped>
-.content{
+.publicInfo{
+  .content{
     background-color: #fff !important;
     height: calc(100vh - 140px);
     overflow: auto;
@@ -131,5 +133,5 @@ const details = (item)=>{
     }
     
 }
-
+}
 </style>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.village_back.mapper.VotingMapper">
+
+    <update id="update">
+        update `voting`
+        <set>
+            <if test="voteType != null">
+                voteType = #{voteType},
+            </if>
+            <if test="startTime != null">
+                startTime = #{startTime},
+            </if>
+            <if test="endTime != null">
+                endTime = #{endTime},
+            </if>
+            <if test="duty != null">
+                duty = #{duty},
+            </if>
+            <if test="year != null">
+                year = #{year},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    <select  id = "deleteBatch" resultType="java.lang.Integer">
+        delete  from  voting where id in
+        <foreach collection="ids"  item="item" index ="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectPage" resultType="com.example.village_back.entity.Voting">
+        SELECT * FROM voting
+        <!--           加这个<where></where>这个条件-->
+        <where>
+            <if test="year != null and year != ''">
+                and year = #{title}
+            </if>
+            <if test="voteType != null and voteType != ''">
+                and voteType = #{noticeType}
+            </if>
+        </where>
+        LIMIT #{pageNum},#{pageSize}
+    </select>
+
+    <select id="selectTotal" resultType="java.lang.Long">
+        SELECT count(id) from voting
+        <where>
+            <if test="year != null and year != ''">
+                and year = #{title}
+            </if>
+            <if test="voteType != null and voteType != ''">
+                and voteType = #{voteType}
+            </if>
+        </where>
+    </select>
+</mapper>

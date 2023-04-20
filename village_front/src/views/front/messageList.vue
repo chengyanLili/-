@@ -99,7 +99,8 @@ const data = reactive({
   radio:1,
   sendForm: {
     theme: '',
-    content: ''
+    content: '',
+    msgStatus: '待处理'
   },
   users: [],
   reply:[],
