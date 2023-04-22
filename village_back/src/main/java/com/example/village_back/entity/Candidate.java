@@ -14,5 +14,6 @@ public class Candidate {
     private String phone;
     private String avatarUrl;
     private String experience;
+    private String whichGroup;
     private Integer votes;
 }

@@ -20,6 +20,9 @@
             <if test="year != null">
                 year = #{year},
             </if>
+            <if test="notice != null">
+                notice = #{notice},
+            </if>
         </set>
         <where>
             id = #{id}

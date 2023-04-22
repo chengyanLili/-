@@ -34,6 +34,11 @@ const router = createRouter({
           component:() => import('../views/front/myVoting.vue')
         },
         {
+          path:'/front/candidateList',
+          name:'candidateList',
+          component:() => import('../views/front/candidateList.vue')
+        },
+        {
           path:'/front/myself',
           name:'myself',
           component:() => import('../views/front/myself.vue')

@@ -11,8 +11,8 @@ import java.util.List;
 
 @Mapper
 public interface CandidateMapper {
-    @Insert("INSERT INTO `candidate`(voteType,name,phone,gender,birthday,avatarUrl,votes,experience)\n" +
-            "values(#{voteType},#{name},#{phone},#{gender},#{birthday},#{avatarUrl},#{votes},#{experience})")
+    @Insert("INSERT INTO `candidate`(voteType,whichGroup,name,phone,gender,birthday,avatarUrl,votes,experience)\n" +
+            "values(#{voteType},#{whichGroup},#{name},#{phone},#{gender},#{birthday},#{avatarUrl},#{votes},#{experience})")
 
     int insert(Candidate candidate);
 

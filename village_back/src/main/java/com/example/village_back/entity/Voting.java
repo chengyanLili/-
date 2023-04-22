@@ -10,6 +10,7 @@ public class Voting {
     private String voteType;
     private String duty;
     private String year;
+    private String notice;
     private Date startTime;
     private Date endTime;
 }

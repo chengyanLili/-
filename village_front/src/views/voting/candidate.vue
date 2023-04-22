@@ -53,7 +53,7 @@
     </el-table-column>
   </el-table>
 
-  <!-- 添加/修改村干部 -->
+  <!-- 添加/修改候选人 -->
   <el-dialog width="60%" v-model="data.dialogTableVisible" :before-close="beforeClose" :title="data.isEdit ? '修改选举' : '添加选举'">
     <el-form ref="formRef" :model="data.addForm" :rules="data.formRules">
       <el-form-item label="姓名" prop="name" :label-width="formLabelWidth">
@@ -139,22 +139,21 @@ const data = reactive({
     total: 0,
     isEdit:false,
     idList: [],
-dialogTableVisible: false,
-isEdit: false,
-searchForm: {
-    name:'',
-    phone:'',
-    voteType: ''
-  },
-addForm: {
-    name: '',
-    phone: '',
-    age: '',
-    gender: '',
-    avatarUrl:'',
-    voteType: '',
-    experience: ''
-  },
+    dialogTableVisible: false,
+    searchForm: {
+        name:'',
+        phone:'',
+        voteType: ''
+      },
+    addForm: {
+        name: '',
+        phone: '',
+        age: '',
+        gender: '',
+        avatarUrl:'',
+        voteType: '',
+        experience: ''
+      },
   formRules: {
     name: [{ required: true, message: "请输入竞选者姓名", trigger: "blur" }],
     phone: [{ required: true, message: "请输入竞选者电话号码", trigger: "blur" }],

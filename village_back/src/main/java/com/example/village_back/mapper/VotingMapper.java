@@ -11,8 +11,8 @@ import java.util.List;
 
 @Mapper
 public interface VotingMapper {
-    @Insert("INSERT INTO `voting`(voteType,startTime,endTime,duty,year)\n" +
-            "values(#{voteType},#{startTime},#{endTime},#{duty},#{year})")
+    @Insert("INSERT INTO `voting`(voteType,startTime,endTime,duty,year,notice)\n" +
+            "values(#{voteType},#{startTime},#{endTime},#{duty},#{year},#{notice})")
 
     int insert(Voting voting);
 
