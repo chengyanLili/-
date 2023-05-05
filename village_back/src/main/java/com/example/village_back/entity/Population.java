@@ -1,10 +1,11 @@
 package com.example.village_back.entity;
 import cn.hutool.core.annotation.Alias;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.ToString;
+
+import java.util.Date;
 
 @Data
 @TableName(value = "population")
@@ -19,8 +20,8 @@ public class Population {
     private String gender;
     @Alias("电话号码")
     private String phone;
-    @Alias("年龄")
-    private Integer age;
+    @Alias("出生日期")
+    private Date birthday;
     @Alias("民族")
     private String nation;
     @Alias("身份证号")

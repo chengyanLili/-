@@ -40,10 +40,10 @@
         <!--           加这个<where></where>这个条件-->
         <where>
             <if test="year != null and year != ''">
-                and year = #{title}
+                and year = #{year}
             </if>
             <if test="voteType != null and voteType != ''">
-                and voteType = #{noticeType}
+                and voteType = #{voteType}
             </if>
         </where>
         LIMIT #{pageNum},#{pageSize}
@@ -53,7 +53,7 @@
         SELECT count(id) from voting
         <where>
             <if test="year != null and year != ''">
-                and year = #{title}
+                and year = #{year}
             </if>
             <if test="voteType != null and voteType != ''">
                 and voteType = #{voteType}

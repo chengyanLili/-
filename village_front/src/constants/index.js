@@ -67,10 +67,9 @@ export const config = {
     { id: 7, label: "技工学校" },
     { id: 8, label: "中等专业学校" },
     { id: 9, label: "大专" },
-    { id: 10, label: "大学专科和专科学校" },
-    { id: 11, label: "大学本科" },
-    { id: 12, label: "研究生" },
-    { id: 13, label: "其他" },
+    { id: 10, label: "大学本科" },
+    { id: 11, label: "研究生" },
+    { id: 12, label: "其他" },
   ],
 
   POLICYLIST: [
@@ -125,6 +124,13 @@ export const config = {
     { label: "村民委员会副主任", value: "村民委员会副主任" },
     { label: "党总支书记", value: "党总支书记" },
     { label: "小组长", value: "小组长" },
+  ],
+  YEARS: [
+    { label: "2023", value: "2023" },
+    { label: "2022", value: "2022" },
+    { label: "2021", value: "2021" },
+    { label: "2020", value: "2020" },
+    { label: "2019", value: "2019" },
   ],
   INTRODUCE: [
     {

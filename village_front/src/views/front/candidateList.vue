@@ -20,7 +20,7 @@
           />
         </div>
         <div class="msgContent">
-          <ul class="info">
+          <ul class="candidate-info">
             <li>竞选岗位：{{ msg.voteType }}</li>
             <li>姓名：{{ msg.name }}</li>
             <li>性别：{{ msg.gender }}</li>
@@ -36,7 +36,19 @@
     </div>
   </div>
   <el-drawer v-model="drawer" :title="data.title">
-    <ul class="info" style="color: black; display: grid; margin-top: 50px">
+    <ul
+      class="candidate-info"
+      style="
+        color: black;
+        margin-top: 50px;
+        list-style: none;
+        font-size: 15px;
+        display: grid;
+        grid-template-columns: 1;
+        gap: 20px;
+        justify-content: center;
+      "
+    >
       <li>
         <el-avatar
           shape="square"
@@ -51,7 +63,13 @@
       <li>联系电话：{{ data.infos.phone }}</li>
       <li>经历：{{ data.infos.experience }}</li>
       <li>
-        <el-tag class="ml-2" type="success" @click="handleVote">投票</el-tag>
+        <el-tag
+          class="ml-2"
+          type="success"
+          @click="handleVote"
+          style="margin-left: 30px"
+          >投票</el-tag
+        >
       </li>
     </ul>
   </el-drawer>
@@ -199,7 +217,7 @@ body {
           .operate {
             margin: 50px;
           }
-          .info {
+          .candidate-info {
             display: block;
             list-style: none;
             font-size: 15px;

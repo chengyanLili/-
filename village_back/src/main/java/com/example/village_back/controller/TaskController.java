@@ -1,10 +1,7 @@
 package com.example.village_back.controller;
 
-import com.example.village_back.entity.FloatPopulation;
 import com.example.village_back.entity.Task;
-import com.example.village_back.mapper.FloatMapper;
 import com.example.village_back.mapper.TaskMapper;
-import com.example.village_back.service.FloatService;
 import com.example.village_back.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

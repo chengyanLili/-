@@ -19,10 +19,10 @@ public class VotingService {
 
     public Map<String,Object> findPage(@RequestParam Integer pageNum,
                                        @RequestParam Integer pageSize,
-                                       @RequestParam String title,
-                                       @RequestParam String noticeType){
+                                       @RequestParam String year,
+                                       @RequestParam String voteType){
         pageNum = (pageNum - 1) * pageSize;
-        List<Voting> data = votingMapper.selectPage(pageNum,pageSize,title,noticeType);
+        List<Voting> data = votingMapper.selectPage(pageNum,pageSize,year,voteType);
         long total = votingMapper.selectTotal();
         Map<String,Object> res = new HashMap<>();
         res.put("data",data);

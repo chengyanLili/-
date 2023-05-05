@@ -1,12 +1,8 @@
 package com.example.village_back.controller;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
-import cn.hutool.poi.excel.sax.ExcelSaxReader;
-import com.alibaba.excel.EasyExcelFactory;
 import com.example.village_back.mapper.PopulationMapper;
 import com.example.village_back.service.PopulationService;
 import com.example.village_back.entity.Population;
@@ -18,12 +14,9 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/population") //统一给接口加前缀

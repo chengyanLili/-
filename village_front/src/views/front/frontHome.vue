@@ -1,17 +1,16 @@
 <template>
   <div class="wrapper">
     <div class="upper">
-      <div class="upper-title">走进荒田</div>
+      <div class="upper-title">
+        <el-icon size="25"><Location /></el-icon>
+        <div>荒田概况</div>
+      </div>
       <div class="upper-content" v-for="item in data.introduceList">
         <div class="upper-content_text">
           <span>{{ item.content }}</span>
         </div>
         <div class="upper-content_img">
-          <el-image
-            src="https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg"
-            fit="fill"
-          >
-          </el-image>
+          <el-image :src="gaikuang" fit="fill"> </el-image>
         </div>
       </div>
     </div>
@@ -19,9 +18,9 @@
     <div class="bottom">
       <div class="left">
         <div class="swiper">
-          <el-carousel :interval="5000" arrow="always" height="200px">
-            <el-carousel-item v-for="item in 3" :key="item">
-              <h3 text="2xl" justify="center">{{ item }}</h3>
+          <el-carousel :interval="5000" arrow="always" height="300px">
+            <el-carousel-item v-for="item in imgs" :key="item">
+              <el-image :src="item" fit="fill" />
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -42,28 +41,28 @@
               :index="item.id"
               :key="item.id"
             >
-              <span>{{ item.title }}</span>
+              <span @click="readContent(item)">{{ item.title }}</span>
             </li>
           </el-tab-pane>
           <el-tab-pane label="凤庆县要闻" name="second">
             <div class="title">凤庆县要闻</div>
             <hr />
             <li v-for="item in data.countyNews" :index="item.id" :key="item.id">
-              <span>{{ item.title }}</span>
+              <span @click="readContent(item)">{{ item.title }}</span>
             </li>
           </el-tab-pane>
           <el-tab-pane label="森林防火" name="third">
             <div class="title">森林防火</div>
             <hr />
             <li v-for="item in data.fileList" :index="item.id" :key="item.id">
-              <span>{{ item.title }}</span>
+              <span @click="readContent(item)">{{ item.title }}</span>
             </li>
           </el-tab-pane>
           <el-tab-pane label="法律法规" name="four">
             <div class="title">法律法规</div>
             <hr />
             <li v-for="item in data.lawList" :index="item.id" :key="item.id">
-              <span>{{ item.title }}</span>
+              <span @click="readContent(item)">{{ item.title }}</span>
             </li>
           </el-tab-pane>
         </el-tabs>
@@ -75,7 +74,15 @@
 <script setup>
 import { reactive, ref, onMounted } from "vue";
 import request from "../../request/request";
+import router from "../../router";
+
+import gaikuang from "../../assets/img/gaikuang.jpg";
+import img1 from "../../assets/img/01.jpg";
+import img2 from "../../assets/img/02.jpg";
+import img3 from "../../assets/img/03.jpg";
+
 const activeName = ref("first");
+const imgs = [img1, img2, img3];
 const data = reactive({
   villageNews: [],
   countyNews: [],
@@ -126,6 +133,15 @@ const load = () => {
       });
     });
 };
+// 查看文件通知
+const readContent = (item) => {
+  router.push({
+    path: "/front/readContent",
+    query: {
+      content: JSON.stringify(item),
+    },
+  });
+};
 </script>
 
 <style lang="less" scoped>
@@ -135,9 +151,17 @@ const load = () => {
   overflow: auto;
   .upper {
     .upper-title {
+      display: flex;
+      align-items: center;
       background-color: #92c4f8;
       height: 40px;
+      font-size: 17px;
+      font-weight: bolder;
+      color: #fff;
       line-height: 40px;
+      .el-icon {
+        margin: 0px 10px 0 20px;
+      }
     }
     .upper-content {
       margin: 10px;
@@ -188,6 +212,7 @@ const load = () => {
         list-style: none;
         text-overflow: ellipsis;
         overflow: hidden;
+        cursor: pointer;
         a {
           //去掉下换线
           text-decoration: none;

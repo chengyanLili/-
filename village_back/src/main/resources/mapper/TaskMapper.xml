@@ -26,6 +26,9 @@
             <if test="noticeType != null">
                 noticeType = #{noticeType},
             </if>
+            <if test="fileUrl != null">
+                fileUrl = #{fileUrl},
+            </if>
         </set>
         <where>
             id = #{id}

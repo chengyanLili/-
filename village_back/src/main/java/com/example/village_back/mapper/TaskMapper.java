@@ -9,8 +9,8 @@ import java.util.List;
 @Mapper
 public interface TaskMapper {
 
-    @Insert("INSERT INTO `task`(title,content,createTime,finishTime,progress,publishName,commentNum,noticeType)\n" +
-            "values(#{title},#{content},#{createTime},#{finishTime},#{progress},#{publishName},#{commentNum},#{noticeType})")
+    @Insert("INSERT INTO `task`(title,fileUrl,content,createTime,finishTime,progress,publishName,commentNum,noticeType)\n" +
+            "values(#{title},#{fileUrl},#{content},#{createTime},#{finishTime},#{progress},#{publishName},#{commentNum},#{noticeType})")
 
     int insert(Task task);
 

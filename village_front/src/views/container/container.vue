@@ -1,8 +1,6 @@
 <script setup>
-import Header from '../../components/header.vue'
-import Aside from '../../components/aside.vue'
-
-
+import Header from "../../components/header.vue";
+import Aside from "../../components/aside.vue";
 </script>
 
 <template>
@@ -12,10 +10,10 @@ import Aside from '../../components/aside.vue'
         <Aside></Aside>
       </el-aside>
       <el-container>
-        <el-header style="padding:0px">
-            <Header></Header>
+        <el-header style="padding: 0px">
+          <Header></Header>
         </el-header>
-        <el-main style="background-color: #fff;">
+        <el-main style="background-color: #fff">
           <router-view></router-view>
         </el-main>
       </el-container>
@@ -24,5 +22,7 @@ import Aside from '../../components/aside.vue'
 </template>
 
 <style lang="less" scoped>
-
+.el-main {
+  overflow: hidden;
+}
 </style>

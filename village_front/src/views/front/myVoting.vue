@@ -15,7 +15,7 @@
             <el-icon size="35"><Message /></el-icon>
           </div>
           <div class="msgContent" style="display: block">
-            <ul class="info">
+            <ul class="vote-info">
               <li style="width: 420px">{{ msg.voteType }} 选举</li>
               <el-tag style="cursor: pointer" @click="handleDetail"
                 >点我报名</el-tag
@@ -107,14 +107,14 @@
             />
           </el-form-item>
           <el-form-item
-            label="小组长"
+            label="所在小组"
             prop="whichGroup"
             :label-width="formLabelWidth"
           >
             <el-input
               type="textarea"
               v-model="data.addForm.whichGroup"
-              placeholder="如果竞选的是小组长，请输入具体的小组"
+              placeholder="请输入所在的小组"
               autocomplete="off"
             />
           </el-form-item>
@@ -181,6 +181,9 @@ const data = reactive({
     birthday: [{ required: true, message: "请选择生产日期", trigger: "blur" }],
     gender: [{ required: true, message: "请选择性别", trigger: "blur" }],
     experience: [{ required: true, message: "请输入经历", trigger: "blur" }],
+    whichGroup: [
+      { required: true, message: "请输入所在小组", trigger: "blur" },
+    ],
   },
 });
 onMounted(() => {
@@ -231,7 +234,6 @@ const fileUploadSuccess = (res) => {
 
 // 查看候选人
 const candidate = (voteType) => {
-  console.log("voteType", voteType);
   router.push({
     path: "/front/candidateList",
     query: {
@@ -244,7 +246,6 @@ const candidate = (voteType) => {
 const submit = () => {
   formRef.value.validate((valid) => {
     if (valid) {
-      data.addForm.voteType = data.addForm.whichGroup;
       request.post("/api/candidate/addOrUpdate", data.addForm).then((res) => {
         if (res.status == 200) {
           ElMessage({
@@ -314,7 +315,7 @@ body {
             color: #e6a23c;
           }
           .msgContent {
-            .info {
+            .vote-info {
               display: flex;
               list-style: none;
               font-size: 15px;

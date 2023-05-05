@@ -27,6 +27,7 @@ public class Task {
     private String commentNum;
     private String createTime;
     private String noticeType;
+    private String fileUrl;
 
     private Date finishTime;
 }
